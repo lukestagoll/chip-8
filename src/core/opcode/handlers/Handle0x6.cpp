@@ -5,6 +5,8 @@
 
 void Opcode::handle6XNN(uint16_t opcode, CPU &cpu)
 {
-    // TODO: Store number NN in register VX
-    throw std::runtime_error("Unimplemented opcode (0x6XNN): " + std::to_string(opcode));
+    uint8_t index = (opcode >> 8) & 0x0F;
+    uint8_t value = opcode & 0x00FF;
+
+    cpu.setVX(index, value);
 }
