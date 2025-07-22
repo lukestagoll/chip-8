@@ -30,6 +30,23 @@ set(CORE_SOURCES
     src/core/Chip8.cpp
     src/core/CPU.cpp
     src/core/Memory.cpp
+    src/core/opcode/Opcode.cpp
+    src/core/opcode/handlers/Handle0x0.cpp
+    src/core/opcode/handlers/Handle0x1.cpp
+    src/core/opcode/handlers/Handle0x2.cpp
+    src/core/opcode/handlers/Handle0x3.cpp
+    src/core/opcode/handlers/Handle0x4.cpp
+    src/core/opcode/handlers/Handle0x5.cpp
+    src/core/opcode/handlers/Handle0x6.cpp
+    src/core/opcode/handlers/Handle0x7.cpp
+    src/core/opcode/handlers/Handle0x8.cpp
+    src/core/opcode/handlers/Handle0x9.cpp
+    src/core/opcode/handlers/Handle0xA.cpp
+    src/core/opcode/handlers/Handle0xB.cpp
+    src/core/opcode/handlers/Handle0xC.cpp
+    src/core/opcode/handlers/Handle0xD.cpp
+    src/core/opcode/handlers/Handle0xE.cpp
+    src/core/opcode/handlers/Handle0xF.cpp
 )
 
 # Add the source files to the executable target
@@ -49,6 +66,7 @@ endif()
 target_include_directories(chip8 PRIVATE
     external/SDL/include
     src/core
+    src/core/opcode
 )
 
 target_link_libraries(chip8 PRIVATE SDL3)

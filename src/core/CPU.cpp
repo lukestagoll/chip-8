@@ -1,5 +1,6 @@
 #include "CPU.h"
-#include <iostream>
+#include "Opcode.h"
+#include <stdexcept>
 
 void CPU::init()
 {
@@ -43,8 +44,6 @@ void CPU::cycle()
     uint16_t opcode = memory->read(program_counter) << 8 | memory->read(program_counter + 1);
     program_counter += 2;
 
-    std::cout << "instruction: " << opcode << "\n";
-
-    // Decode the instruction
-    // Execute the instruction
+    // Decode & Execute the instruction
+    Opcode::execute(opcode, *this, *memory);
 }
