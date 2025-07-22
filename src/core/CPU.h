@@ -17,6 +17,7 @@ public:
     bool getClearDisplayFlag() const { return clear_display_flag; }
 
     void setVX(uint8_t index, uint8_t value) { V[index] = value; };
+    void setI(uint16_t addr) { I = addr; };
 
 private:
     Memory *memory;
