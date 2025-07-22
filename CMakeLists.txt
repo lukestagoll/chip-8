@@ -28,6 +28,8 @@ add_subdirectory(external/SDL)
 
 set(CORE_SOURCES
     src/core/Chip8.cpp
+    src/core/CPU.cpp
+    src/core/Memory.cpp
 )
 
 # Add the source files to the executable target
@@ -56,6 +58,8 @@ set_target_properties(chip8 PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
     OUTPUT_NAME "chip8"
 )
+
+file(COPY ${CMAKE_SOURCE_DIR}/roms DESTINATION ${CMAKE_BINARY_DIR}/bin )
 
 # Enable link time optimization for Release builds
 include(CheckIPOSupported)

@@ -39,14 +39,16 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    chip8.init();
+    chip8 = Chip8();
 
     const char* romFile = "roms/1-chip8-logo.ch8";
-    chip8.loadROM(romFile);
+    int fail = chip8.loadROM(romFile);
+
+    if (fail) return fail;
 
     for (;;)
     {
-        chip8.cycle();
+        chip8.tick();
     }
 
     SDL_DestroyRenderer(renderer);

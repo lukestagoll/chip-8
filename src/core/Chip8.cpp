@@ -1,69 +1,64 @@
 #include "Chip8.h"
 #include "Font.h"
+#include <cstdint>
+#include <fstream>
+#include <iostream>
 
-void Chip8::init()
+Chip8::Chip8()
 {
-    initMemory();
     loadFontSet();
-    initRegisters();
-    initStack();
     initKeypad();
     clearDisplay();
+
+    memory = Memory();
+
+    cpu = CPU();
+    cpu.attachMemory(&memory);
 }
 
-void Chip8::loadROM(const char* filename)
+
+int Chip8::loadROM(const char *filename)
 {
     // Load the ROM file into memory
     // Read the file and copy its contents to the Chip-8 memory starting at address 0x200
     // Handle errors if the file cannot be opened or read
     // Set the program counter to 0x200 after loading the ROM
-    
-}
 
-void Chip8::cycle()
-{
-
-    // Emulate one cycle of the Chip-8 CPU
-    // Fetch instruction from memory at the current program counter
-    // Decode the instruction
-    // Execute the instruction
-}
-
-void Chip8::initMemory()
-{
-    for (int i = 0; i < 4096; ++i)
+    std::ifstream file(filename, std::ios::binary);
+    if (!file)
     {
-        memory[i] = 0;
+        std::cerr << "Error: Failed to open file.";
+        return 1;
     }
+
+    size_t index = PROGRAM_START_ADDRESS;
+    while (index < MEMORY_LIMIT)
+    {
+        char byte;
+        file.read(&byte, 1);
+        memory.write(index, static_cast<uint8_t>(byte));
+        index++;
+    }
+
+    if (!file.eof() && file.peek() != EOF)
+    {
+        std::cerr << "Error: file exceeds memory limit.";
+        return 1;
+    }
+
+    return 0;
+}
+
+void Chip8::tick()
+{
+    cpu.cycle();
 }
 
 void Chip8::loadFontSet()
 {
     for (int i = 0; i < 80; ++i)
     {
-        memory[0x050 + i] = system_font[i];
-    }
-}
-
-void Chip8::initRegisters()
-{
-    for (int i = 0; i < 16; ++i)
-    {
-        V[i] = 0;
-    }
-    I = 0;
-    delay_timer = 0;
-    sound_timer = 0;
-    program_counter = PROGRAM_START_ADDRESS;
-}
-
-void Chip8::initStack()
-{
-    stack_pointer = 0;
-
-    for (int i = 0; i < 16; ++i)
-    {
-        stack[i] = 0;
+        memory.safeWrite(0x050 + i, system_font[i]);
     }
 }
 
