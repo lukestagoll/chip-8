@@ -11,6 +11,10 @@ public:
     CPU();
     void attachMemory(Memory* mem) { memory = mem; }
     void cycle();
+    void setDrawFlag(bool value) { draw_flag = value; }
+    bool getDrawFlag() const { return draw_flag; }
+    void setClearDisplayFlag(bool value) { clear_display_flag = value; }
+    bool getClearDisplayFlag() const { return clear_display_flag; }
 
 private:
     Memory *memory;
@@ -26,6 +30,10 @@ private:
     uint16_t stack[16];    // Stack for subroutine calls
     uint8_t stack_pointer; // Stack pointer
 
-    void initRegisters();
+    bool draw_flag = false;
+    bool clear_display_flag = false;
+
+    void
+    initRegisters();
     void initStack();
 };

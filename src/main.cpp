@@ -2,6 +2,7 @@
 #include <SDL3/SDL_main.h>
 
 #include "Chip8.h"
+#include "SDL3/SDL_stdinc.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 320
@@ -39,6 +40,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 64, 32);
+
     const char* romFile = "roms/1-chip8-logo.ch8";
     int fail = chip8.loadROM(romFile);
 
@@ -47,6 +50,27 @@ int main(int argc, char* argv[]) {
     for (;;)
     {
         chip8.tick();
+
+        if (chip8.getDrawFlag())
+        {
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+
+            uint8_t *display = chip8.getDisplay();
+            uint32_t pixels[2048];
+            for (int i = 0; i < 64 * 32; ++i)
+            {
+                pixels[i] = display[i] ? 0xFFFFFFFF : 0x000000FF;
+            }
+
+            SDL_UpdateTexture(texture, nullptr, pixels, 64 * sizeof(uint32_t));
+
+            SDL_RenderTexture(renderer, texture, nullptr, nullptr);
+
+            SDL_RenderPresent(renderer);
+
+            chip8.setDrawFlag(false);
+        }
     }
 
     SDL_DestroyRenderer(renderer);

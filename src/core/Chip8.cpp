@@ -16,11 +16,6 @@ Chip8::Chip8() : memory(), cpu()
 
 int Chip8::loadROM(const char *filename)
 {
-    // Load the ROM file into memory
-    // Read the file and copy its contents to the Chip-8 memory starting at address 0x200
-    // Handle errors if the file cannot be opened or read
-    // Set the program counter to 0x200 after loading the ROM
-
     std::ifstream file(filename, std::ios::binary);
     if (!file)
     {
@@ -49,6 +44,18 @@ int Chip8::loadROM(const char *filename)
 void Chip8::tick()
 {
     cpu.cycle();
+
+    if (cpu.getClearDisplayFlag())
+    {
+        clearDisplay();
+        cpu.setClearDisplayFlag(false);
+    }
+
+    if (cpu.getDrawFlag())
+    {
+        setDrawFlag(true);
+        cpu.setDrawFlag(false);
+    }
 }
 
 void Chip8::loadFontSet()
@@ -73,4 +80,5 @@ void Chip8::clearDisplay()
     {
         display[i] = 0;
     }
+    setDrawFlag(true);
 }
