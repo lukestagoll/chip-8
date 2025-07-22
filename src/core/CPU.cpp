@@ -2,7 +2,7 @@
 #include "Opcode.h"
 #include <stdexcept>
 
-void CPU::init()
+CPU::CPU()
 {
     initRegisters();
     initStack();

@@ -15,7 +15,7 @@ public:
     uint8_t safeRead(uint16_t address) const;
     void safeWrite(uint16_t address, uint8_t value);
 
-  private:
+private:
     /*
         Memory layout:
         0x000-0x1FF: Reserved for interpreter

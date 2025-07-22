@@ -4,15 +4,12 @@
 #include <fstream>
 #include <iostream>
 
-Chip8::Chip8()
+Chip8::Chip8() : memory(), cpu()
 {
     loadFontSet();
     initKeypad();
     clearDisplay();
 
-    memory = Memory();
-
-    cpu = CPU();
     cpu.attachMemory(&memory);
 }
 

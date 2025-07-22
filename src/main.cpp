@@ -39,8 +39,6 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    chip8 = Chip8();
-
     const char* romFile = "roms/1-chip8-logo.ch8";
     int fail = chip8.loadROM(romFile);
 
