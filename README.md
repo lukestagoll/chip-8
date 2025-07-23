@@ -9,6 +9,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 ## Current Implementation Status
 ### Implemented Opcodes
 - `00E0` - Clear display
+- `00EE` - Return from subroutine
 - `1NNN` - jump to address NNN
 - `2NNN` - execute subroutine starting at address NNN
 - `3XNN` - if VX == NN, skip next instruction (i.e. if VX != NN then)

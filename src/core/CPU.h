@@ -30,6 +30,7 @@ public:
 
     void jump(uint16_t address) { programCounter = address; }
     void callSubroutine(uint16_t address);
+    void exitSubroutine();
 
 private:
     Memory &memory;

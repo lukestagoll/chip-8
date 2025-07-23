@@ -97,3 +97,12 @@ void CPU::callSubroutine(uint16_t address)
 
     programCounter = address;
 }
+
+void CPU::exitSubroutine()
+{
+    if (stackPointer == 0)
+    {
+        throw std::underflow_error("Stack empty");
+    }
+    programCounter = stack[--stackPointer];
+}

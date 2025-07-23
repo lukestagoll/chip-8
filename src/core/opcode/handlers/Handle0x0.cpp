@@ -11,8 +11,8 @@ void Opcode::handle0x0(uint16_t opcode, CPU &cpu)
             cpu.clearDisplay();
             break;
         case 0x00EE:
-            // TODO: return from subroutine
-            throw std::runtime_error("Unimplemented opcode (0x00EE): " + std::to_string(opcode));
+            cpu.exitSubroutine();
+            break;
         default:
             throw std::runtime_error("Unknown opcode: " + std::to_string(opcode));
     }
