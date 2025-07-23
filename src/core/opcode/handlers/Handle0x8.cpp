@@ -23,19 +23,11 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.xorV(x, y);
         break;
     case 0x8004:
-        /*
-            TODO: Add the value of register VY to register VX
-                  Set VF to 01 if a carry occurs
-                  Set VF to 00 if a carry does not occur
-        */
-        throw std::runtime_error("Unimplemented opcode (0x8XY4): " + std::to_string(opcode));
+        cpu.addVV(x, y);
+        break;
     case 0x8005:
-        /*
-            TODO: Subtract the value of register VY from register VX
-                  Set VF to 00 if a borrow occurs
-                  Set VF to 01 if a borrow does not occur
-        */
-        throw std::runtime_error("Unimplemented opcode (0x8XY5): " + std::to_string(opcode));
+        cpu.subVV(x, y);
+        break;
     case 0x8006:
         /*
             TODO: Store the value of register VY shifted right one bit in register VX¹

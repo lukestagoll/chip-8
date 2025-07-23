@@ -22,6 +22,14 @@ public:
     void orV(uint8_t x, uint8_t y) { V[x] |= V[y]; };
     void xorV(uint8_t x, uint8_t y) { V[x] ^= V[y]; };
     void andV(uint8_t x, uint8_t y) { V[x] &= V[y]; };
+    void addVV(uint8_t x, uint8_t y) {
+        V[x] += V[y];
+        V[0xF] = V[y] > V[x] ? 1 : 0;
+    };
+    void subVV(uint8_t x, uint8_t y) {
+        V[0xF] = V[x] >= V[y] ? 1 : 0;
+        V[x] -= V[y];
+    };
     void addV(uint8_t index, uint8_t value) { V[index] += value; };
     bool compareVXVY(uint8_t x, uint8_t y) { return V[x] == V[y]; };
     bool vEquals(uint8_t index, uint8_t value) { return V[index] == value; };
