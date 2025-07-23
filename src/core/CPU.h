@@ -12,13 +12,15 @@ public:
 
     CPU(Memory &mem, Display &display);
     void cycle();
-    void setDrawFlag(bool value) { drawFlag = value; }
-    bool getDrawFlag() const { return drawFlag; }
-    void setClearDisplayFlag(bool value) { clearDisplayFlag = value; }
-    bool getClearDisplayFlag() const { return clearDisplayFlag; }
+    void clearDrawFlag() { display.clearDrawFlag(); }
+    bool getDrawFlag() const { return display.getDrawFlag(); }
 
-    void setVX(uint8_t index, uint8_t value) { V[index] = value; };
-    void setI(uint16_t addr) { indexRegister = addr; };
+    void setV(uint8_t index, uint8_t value) { V[index] = value; };
+    void setVF(uint8_t value) { V[15] = value; };
+    void setIndexRegister(uint16_t addr) { indexRegister = addr; };
+
+    void drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
+    void clearDisplay() { display.clear(); }
 
 private:
     Memory &memory;
@@ -35,9 +37,6 @@ private:
     std::array<uint16_t, 16> stack; // Stack for subroutine calls
 
     uint8_t stackPointer;    // Stack pointer
-
-    bool drawFlag = false;
-    bool clearDisplayFlag = false;
 
     void
     initRegisters();

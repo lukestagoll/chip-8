@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 
             SDL_RenderPresent(renderer);
 
-            chip8.setDrawFlag(false);
+            chip8.clearDrawFlag();
         }
     }
 

@@ -12,7 +12,10 @@ public:
     Display();
 
     void clear();
+    uint8_t flipPixel(uint8_t x, uint8_t y);
     const uint8_t *getBuffer() const { return buffer; };
+    bool getDrawFlag() const { return drawFlag; }
+    void clearDrawFlag() { drawFlag = false; }
 
 private:
     uint8_t buffer[SIZE];

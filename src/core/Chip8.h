@@ -13,8 +13,8 @@ public:
     int loadROM(const char *filename);
     void tick();
 
-    void setDrawFlag(bool value) { drawFlag = value; }
-    bool getDrawFlag() const { return drawFlag; }
+    void clearDrawFlag() { display.clearDrawFlag(); }
+    bool getDrawFlag() const { return display.getDrawFlag(); }
     Display *getDisplay() { return &display; }
 
 private:
@@ -23,8 +23,6 @@ private:
     Display display;
 
     std::array<uint8_t, 16> keypad; // Keypad state (0-9, A-F)
-
-    bool drawFlag = false;
 
     void loadFontSet();
     void initKeypad();

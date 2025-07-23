@@ -5,5 +5,5 @@
 void Opcode::handleANNN(uint16_t opcode, CPU &cpu)
 {
     uint16_t addr = opcode & 0x0FFF;
-    cpu.setI(addr);
+    cpu.setIndexRegister(addr);
 }

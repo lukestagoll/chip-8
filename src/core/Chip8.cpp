@@ -41,17 +41,6 @@ int Chip8::loadROM(const char *filename)
 void Chip8::tick()
 {
     cpu.cycle();
-
-    if (cpu.getClearDisplayFlag())
-    {
-        display.clear();
-        cpu.setClearDisplayFlag(false);
-    }
-    else if (cpu.getDrawFlag())
-    {
-        drawFlag = true;
-        cpu.setDrawFlag(false);
-    }
 }
 
 void Chip8::loadFontSet()

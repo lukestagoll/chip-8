@@ -8,7 +8,7 @@ void Opcode::handle0x0(uint16_t opcode, CPU &cpu)
     switch (opcode)
     {
         case 0x00E0:
-            cpu.setClearDisplayFlag(true);
+            cpu.clearDisplay();
             break;
         case 0x00EE:
             // TODO: return from subroutine
