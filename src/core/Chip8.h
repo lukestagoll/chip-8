@@ -15,7 +15,7 @@ public:
 
     void clearDrawFlag() { display.clearDrawFlag(); }
     bool getDrawFlag() const { return display.getDrawFlag(); }
-    Display *getDisplay() { return &display; }
+    const uint8_t *getDisplayBuffer() const { return display.getBuffer(); }
 
 private:
     CPU cpu;

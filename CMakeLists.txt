@@ -50,10 +50,18 @@ set(CORE_SOURCES
     src/core/opcode/handlers/Handle0xF.cpp
 )
 
+set(PLATFORM_SOURCES
+    src/platform/Application.cpp
+    src/platform/Renderer.cpp
+    src/platform/Texture.cpp
+    src/platform/Window.cpp
+)
+
 # Add the source files to the executable target
 add_executable(chip8
     src/main.cpp
     ${CORE_SOURCES}
+    ${PLATFORM_SOURCES}
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -68,6 +76,7 @@ target_include_directories(chip8 PRIVATE
     external/SDL/include
     src/core
     src/core/opcode
+    src/platform
 )
 
 target_link_libraries(chip8 PRIVATE SDL3)

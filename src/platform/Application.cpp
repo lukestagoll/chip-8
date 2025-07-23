@@ -1,0 +1,54 @@
+#include "Application.h"
+#include "Display.h"
+#include "Chip8.h"
+
+#include <SDL3/SDL.h>
+
+int Application::run()
+{
+    if (!initSDL() ||
+        !window.create() ||
+        !renderer.create(window.get()) ||
+        !texture.create(renderer.get(), Display::WIDTH, Display::HEIGHT))
+    {
+        return 1;
+    }
+
+    const char *romFile = "roms/1-chip8-logo.ch8";
+    int fail = chip8.loadROM(romFile);
+    if (fail)
+    {
+        return fail;
+    }
+
+    for (;;)
+    {
+        chip8.tick();
+        if (chip8.getDrawFlag())
+        {
+            renderer.clear();
+
+            texture.update(chip8.getDisplayBuffer());
+
+            renderer.renderTexture(texture.get());
+            chip8.clearDrawFlag();
+        }
+    }
+
+    texture.destroy();
+    renderer.destroy();
+    window.destroy();
+    SDL_Quit();
+    return 0;
+}
+
+
+bool Application::initSDL()
+{
+    if (!SDL_Init(SDL_INIT_VIDEO))
+    {
+        SDL_Log("Could not initialize SDL: %s", SDL_GetError());
+        return false;
+    }
+    return true;
+}
