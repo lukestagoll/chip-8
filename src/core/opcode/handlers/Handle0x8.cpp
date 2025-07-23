@@ -17,8 +17,8 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.orV(x, y);
         break;
     case 0x8002:
-        // TODO: Set VX to VX AND VY
-        throw std::runtime_error("Unimplemented opcode (0x8XY2): " + std::to_string(opcode));
+        cpu.andV(x, y);
+        break;
     case 0x8003:
         // TODO: Set VX to VX XOR VY
         throw std::runtime_error("Unimplemented opcode (0x8XY3): " + std::to_string(opcode));

@@ -20,6 +20,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `9XNN` - if VX != VY, skip next instruction (i.e. if VX == VY then)
 - `8XY0` - set VX to the value of VY.
 - `8XY1` - set VX to the value of VX or VY (VX |= VY).
+- `8XY2` - set VX to the value of VX and VY (VX &= VY).
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 
