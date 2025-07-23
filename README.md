@@ -15,6 +15,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `5XY0` - if VX == VY, skip next instruction (i.e. if VX != VY then)
 - `6XNN` - Set register VX to NN
 - `7XNN` - Add NN to VX (VX += NN)
+- `9XNN` - if VX != VY, skip next instruction (i.e. if VX == VY then)
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 
