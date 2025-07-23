@@ -84,11 +84,8 @@ cmake ..
 # Build the project
 make
 
-# Enter bin directory
-cd bin
-
 # Run
-./chip8
+./bin/chip8 /roms/1-chip8-logo.ch8
 ```
 
 # Resources Used

@@ -8,7 +8,7 @@
 class Application
 {
 public:
-    int run();
+    int run(const char *romFile);
     bool initSDL();
 
 private:

@@ -4,7 +4,7 @@
 
 #include <SDL3/SDL.h>
 
-int Application::run()
+int Application::run(const char *romFile)
 {
     if (!initSDL() ||
         !window.create() ||
@@ -14,7 +14,6 @@ int Application::run()
         return 1;
     }
 
-    const char *romFile = "roms/1-chip8-logo.ch8";
     int fail = chip8.loadROM(romFile);
     if (fail)
     {
