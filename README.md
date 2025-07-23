@@ -24,6 +24,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XY3` - set VX to the value of VX xor VY (VX ^= VY).
 - `8XY4` - set VX to the value of VX + VY, Set VF to 1 if overflow, else 0. 
 - `8XY5` - set VX to the value of VX - VY, Set VF to 0 if underflow, else 1. 
+- `8XY7` - set VX to the value of VY - VX, Set VF to 0 if underflow, else 1. 
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 

@@ -36,12 +36,8 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         */
         throw std::runtime_error("Unimplemented opcode (0x8XY6): " + std::to_string(opcode));
     case 0x8007:
-        /*
-            TODO: Set register VX to the value of VY minus VX
-                  Set VF to 00 if a borrow occurs
-                  Set VF to 01 if a borrow does not occur
-        */
-        throw std::runtime_error("Unimplemented opcode (0x8XY7): " + std::to_string(opcode));
+        cpu.subVV(y, x);
+        break;
     case 0x800E:
         /*
             TODO: Store the value of register VY shifted left one bit in register VX¹
