@@ -39,6 +39,11 @@ public:
         V[0xF] = V[index] & 0x1;
         V[index] >>= 1;
     }
+    void shiftVLeft(uint8_t index)
+    {
+        V[0xF] = (V[index] & 0x80) >> 7;
+        V[index] <<= 1;
+    }
     void addV(uint8_t index, uint8_t value) { V[index] += value; };
     bool compareVXVY(uint8_t x, uint8_t y) { return V[x] == V[y]; };
     bool vEquals(uint8_t index, uint8_t value) { return V[index] == value; };

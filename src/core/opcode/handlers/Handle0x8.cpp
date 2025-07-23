@@ -35,12 +35,8 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.setVXsubVYVX(x, y);
         break;
     case 0x800E:
-        /*
-            TODO: Store the value of register VY shifted left one bit in register VX¹
-                  Set register VF to the most significant bit prior to the shift
-                  VY is unchanged
-        */
-        throw std::runtime_error("Unimplemented opcode (0x8XYE): " + std::to_string(opcode));
+        cpu.shiftVLeft(x);
+        break;
     default:
         throw std::runtime_error("Unknown opcode: " + std::to_string(opcode));
     }

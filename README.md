@@ -26,6 +26,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XY5` - set VX to the value of VX - VY, Set VF to 0 if underflow, else 1. 
 - `8XY6` - sets VF to least significant bit of VX, shift VX to the right by 1. (VX >>= 1)
 - `8XY7` - set VX to the value of VY - VX, Set VF to 0 if underflow, else 1. 
+- `8XYE` - sets VF to most significant bit of VX, shift VX to the left by 1. (VX left= 1)
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 
