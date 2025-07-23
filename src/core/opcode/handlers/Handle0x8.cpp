@@ -5,11 +5,14 @@
 
 void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
 {
+    uint8_t x = (opcode >> 8) & 0xF;
+    uint8_t y = (opcode >> 4) & 0xF;
+
     switch (opcode & 0xF00F)
     {
     case 0x8000:
-        // TODO: Store the value of register VY in register VX
-        throw std::runtime_error("Unimplemented opcode (0x8XY0): " + std::to_string(opcode));
+        cpu.setV(x, cpu.getV(y));
+        break;
     case 0x8001:
         // TODO: Set VX to VX OR VY
         throw std::runtime_error("Unimplemented opcode (0x8XY1): " + std::to_string(opcode));

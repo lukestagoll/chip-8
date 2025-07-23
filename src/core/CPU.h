@@ -16,6 +16,7 @@ public:
     bool getDrawFlag() const { return display.getDrawFlag(); }
     void skipNextInstruction() { programCounter += 2; }
 
+    uint8_t getV(uint8_t index) { return V[index]; };
     void setV(uint8_t index, uint8_t value) { V[index] = value; };
     void addV(uint8_t index, uint8_t value) { V[index] += value; };
     bool compareVXVY(uint8_t x, uint8_t y) { return V[x] == V[y]; };
