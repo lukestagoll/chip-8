@@ -1,10 +1,11 @@
 #include "CPU.h"
 #include "Opcode.h"
 #include <cstdint>
-#include <stdexcept>
 
+// adds value NN to register VX
 void Opcode::handle7XNN(uint16_t opcode, CPU &cpu)
 {
-    // TODO: Add the value NN to register VX
-    throw std::runtime_error("Unimplemented opcode (0x7XNN): " + std::to_string(opcode));
+    uint8_t index = (opcode >> 8) & 0xF;
+    uint16_t value = opcode & 0xFF;
+    cpu.addV(index, value);
 }

@@ -16,6 +16,9 @@ public:
     bool getDrawFlag() const { return display.getDrawFlag(); }
 
     void setV(uint8_t index, uint8_t value) { V[index] = value; };
+    void addV(uint8_t index, uint8_t value) { V[index] += value; }
+
+
     void setVF(uint8_t value) { V[15] = value; };
     void setIndexRegister(uint16_t addr) { indexRegister = addr; };
 
