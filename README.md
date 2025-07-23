@@ -19,6 +19,11 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - No input handling yet
 - No sound system implemented
 
+### Tested ROMs
+
+The following ROM images have been tested and run successfully:
+- [CHIP-8 Test Suite: CHIP-8 splash screen (1-chip8-logo.ch8)](https://github.com/Timendus/chip8-test-suite)
+
 ## Specifications
 
 - 4KB RAM
