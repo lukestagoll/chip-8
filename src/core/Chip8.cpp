@@ -16,7 +16,7 @@ int Chip8::loadROM(const char *filename)
     std::ifstream file(filename, std::ios::binary);
     if (!file)
     {
-        std::cerr << "Error: Failed to open file.";
+        std::cerr << "Error: Failed to open file.\n";
         return 1;
     }
 
@@ -31,7 +31,7 @@ int Chip8::loadROM(const char *filename)
 
     if (!file.eof() && file.peek() != EOF)
     {
-        std::cerr << "Error: file exceeds memory limit.";
+        std::cerr << "Error: file exceeds memory limit.\n";
         return 1;
     }
 

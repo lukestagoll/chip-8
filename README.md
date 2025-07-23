@@ -1,11 +1,18 @@
 # CHIP-8 Emulator
 
-A personal project to create a CHIP-8 interpreter in C++, following 
-[tobiasvl's guide](https://tobiasvl.github.io/blog/write-a-chip-8-emulator/). This serves as my gateway into emulator development and low-level systems programming.
+A personal project to create a CHIP-8 interpreter in C++ & SDL3, following multiple guides and resources. This serves as my gateway into emulator development and low-level systems programming.
 
 ## Overview
 
-This project aims to replicate the functionality of the original CHIP-8 interpreter.
+This project aims to replicate the functionality of the original CHIP-8 interpreter. Currently in active development with basic display functionality working.
+
+## Current Implementation Status
+### Implemented Opcodes
+- `00E0` - Clear display
+- `6XNN` - Set register VX to NN
+- `ANNN` - Set index register I to NNN
+- `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
+
 
 ## Specifications
 
@@ -33,7 +40,57 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
   - Sound timer beeps when non-zero
 
 
-## Prerequisites
-Create a `roms` directory in the root of the project to store CHIP-8 ROM files.
+## Getting Started
+### Prerequisites
+- **Clang Compiler**
+- **CMake**
 
-Head to https://github.com/Timendus/chip8-test-suite/releases and download the `1-chip8-logo.ch8` and place it in the `roms` directory.
+### Clone the Repo
+This project uses git submodules for dependencies. Clone with:
+```bash
+git clone --recurse-submodules https://github.com/yourusername/chip-8.git
+cd chip-8
+```
+
+If you've already cloned without submodules, initialize them:
+```bash
+git submodule update --init --recursive
+```
+
+### Setup ROMs Directory
+Create a `roms` directory in the root of the project to store CHIP-8 ROM files:
+
+```bash
+mkdir roms
+```
+
+Download the test ROM:
+- Head to https://github.com/Timendus/chip8-test-suite/releases
+- Download `1-chip8-logo.ch8` and place it in the `roms` directory
+
+### Build and Run
+```bash
+# Create & Enter build directory
+mkdir build && cd build
+
+# Configure with CMake
+cmake ..
+
+# Build the project
+make
+
+# Enter bin directory
+cd bin
+
+# Run
+./chip8
+```
+
+# Resources Used
+- [Awesome CHIP-8](https://github.com/tobiasvl/awesome-chip-8) - Curated resources
+- [Tobias V. Langhoff's CHIP-8 Guide](https://tobiasvl.github.io/blog/write-a-chip-8-emulator/) - Primary tutorial
+- [Laurence Muller's CHIP-8 Guide](https://multigesture.net/articles/how-to-write-an-emulator-chip-8-interpreter/) - Implementation guidance
+- [Matt Mikolay's CHIP-8 Technical Reference](https://github.com/mattmikolay/chip-8/wiki/CHIP%E2%80%908-Technical-Reference) - Detailed specifications
+- [CHIP-8 Instruction Set](https://johnearnest.github.io/Octo/docs/chip8ref.pdf) - Comprehensive instruction set
+- [Timendus' CHIP-8 Test Suite](https://github.com/Timendus/chip8-test-suite) - Testing and validation
+- [CHIP-8 Wikipedia Page](https://en.wikipedia.org/wiki/CHIP-8) - Further information
