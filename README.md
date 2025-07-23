@@ -10,6 +10,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 ### Implemented Opcodes
 - `00E0` - Clear display
 - `1NNN` - jump to address NNN
+- `2NNN` - execute subroutine starting at address NNN
 - `3XNN` - if VX == NN, skip next instruction (i.e. if VX != NN then)
 - `4XNN` - if VX != NN, skip next instruction (i.e. if VX == NN then)
 - `5XY0` - if VX == VY, skip next instruction (i.e. if VX != VY then)

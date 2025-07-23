@@ -29,6 +29,7 @@ public:
     void clearDisplay() { display.clear(); }
 
     void jump(uint16_t address) { programCounter = address; }
+    void callSubroutine(uint16_t address);
 
 private:
     Memory &memory;

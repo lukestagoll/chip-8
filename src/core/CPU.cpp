@@ -85,3 +85,15 @@ void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
 
     V[0xF] = collision ? 1 : 0;
 }
+
+void CPU::callSubroutine(uint16_t address)
+{
+
+    if (stackPointer >= 16)
+    {
+        throw std::overflow_error("Stack limit reached");
+    }
+    stack[stackPointer++] = programCounter;
+
+    programCounter = address;
+}
