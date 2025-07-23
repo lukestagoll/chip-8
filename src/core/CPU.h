@@ -30,6 +30,11 @@ public:
         V[0xF] = V[x] >= V[y] ? 1 : 0;
         V[x] -= V[y];
     };
+    void setVXsubVYVX(uint8_t x, uint8_t y)
+    {
+        V[0xF] = V[y] >= V[x] ? 1 : 0;
+        V[x] = V[y] - V[x];
+    };
     void shiftVRight(uint8_t index) {
         V[0xF] = V[index] & 0x1;
         V[index] >>= 1;

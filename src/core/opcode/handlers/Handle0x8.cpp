@@ -32,7 +32,7 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.shiftVRight(x);
         break;
     case 0x8007:
-        cpu.subVV(y, x);
+        cpu.setVXsubVYVX(x, y);
         break;
     case 0x800E:
         /*
