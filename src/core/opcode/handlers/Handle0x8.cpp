@@ -29,12 +29,8 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.subVV(x, y);
         break;
     case 0x8006:
-        /*
-            TODO: Store the value of register VY shifted right one bit in register VX¹
-                  Set register VF to the least significant bit prior to the shift
-                  VY is unchanged
-        */
-        throw std::runtime_error("Unimplemented opcode (0x8XY6): " + std::to_string(opcode));
+        cpu.shiftVRight(x);
+        break;
     case 0x8007:
         cpu.subVV(y, x);
         break;
