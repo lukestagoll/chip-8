@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstdint>
 
 class Memory
@@ -21,7 +22,7 @@ private:
         0x050-0x0A0: Built in 4x5 pixel font set (0-F). Currently unimplemented.
         0x200-0xFFF: Program ROM and RAM
     */
-    uint8_t memory[MEMORY_LIMIT]; // 4KB of memory
+  std::array<uint8_t, MEMORY_LIMIT> memory; // 4KB of memory
 
-    void clear();
+  void clear();
 };

@@ -1,5 +1,6 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
+#include <array>
 
 #include "Chip8.h"
 #include "Display.h"
@@ -9,20 +10,15 @@
 
 Chip8 chip8;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     if (!SDL_Init(SDL_INIT_VIDEO))
     {
         SDL_Log("Could not initialize SDL: %s", SDL_GetError());
         return 1;
     }
 
-    SDL_Window* window = SDL_CreateWindow
-    (
-        "Chip-8 Interpreter",
-        SCREEN_WIDTH,
-        SCREEN_HEIGHT,
-        0
-    );
+    SDL_Window *window = SDL_CreateWindow("Chip-8 Interpreter", SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
     if (!window)
     {
@@ -30,7 +26,7 @@ int main(int argc, char* argv[]) {
         SDL_Quit();
         return 1;
     }
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, NULL);
 
     if (!renderer)
     {
@@ -42,12 +38,13 @@ int main(int argc, char* argv[]) {
 
     SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 64, 32);
 
-    const char* romFile = "roms/1-chip8-logo.ch8";
+    const char *romFile = "roms/1-chip8-logo.ch8";
     int fail = chip8.loadROM(romFile);
 
-    if (fail) return fail;
+    if (fail)
+        return fail;
 
-    uint32_t pixels[Display::SIZE];
+    std::array<uint32_t, Display::SIZE> pixels;
     for (;;)
     {
         chip8.tick();
@@ -65,7 +62,7 @@ int main(int argc, char* argv[]) {
                 pixels[i] = displayBuffer[i] ? 0xFFFFFFFF : 0x000000FF;
             }
 
-            SDL_UpdateTexture(texture, nullptr, pixels, Display::WIDTH * sizeof(uint32_t));
+            SDL_UpdateTexture(texture, nullptr, &pixels, Display::WIDTH * sizeof(uint32_t));
 
             SDL_RenderTexture(renderer, texture, nullptr, nullptr);
 

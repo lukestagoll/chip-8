@@ -3,6 +3,7 @@
 #include "Memory.h"
 #include "Display.h"
 
+#include <array>
 #include <cstdint>
 
 class CPU {
@@ -23,7 +24,7 @@ private:
     Memory &memory;
     Display &display;
     
-    uint8_t V[16];            // 16 8-bit registers
+    std::array<uint8_t, 16> V; // 16 8-bit registers
 
     uint16_t indexRegister;  // 16-bit index register
     uint16_t programCounter; // Program counter
@@ -31,7 +32,8 @@ private:
     uint8_t delayTimer;      // Delay timer
     uint8_t soundTimer;      // Sound timer
 
-    uint16_t stack[16];       // Stack for subroutine calls
+    std::array<uint16_t, 16> stack; // Stack for subroutine calls
+
     uint8_t stackPointer;    // Stack pointer
 
     bool drawFlag = false;

@@ -3,6 +3,7 @@
 #include "Display.h"
 #include "Memory.h"
 
+#include <array>
 #include <cstdint>
 
 class Chip8 {
@@ -21,7 +22,7 @@ private:
     Memory memory;
     Display display;
 
-    uint8_t keypad[16];    // Keypad state (0-9, A-F)
+    std::array<uint8_t, 16> keypad; // Keypad state (0-9, A-F)
 
     bool drawFlag = false;
 
