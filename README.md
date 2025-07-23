@@ -12,6 +12,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `1NNN` - jump to address NNN
 - `3XNN` - if VX == NN, skip next instruction (i.e. if VX != NN then)
 - `4XNN` - if VX != NN, skip next instruction (i.e. if VX == NN then)
+- `5XY0` - if VX == VY, skip next instruction (i.e. if VX != VY then)
 - `6XNN` - Set register VX to NN
 - `7XNN` - Add NN to VX (VX += NN)
 - `ANNN` - Set index register I to NNN
