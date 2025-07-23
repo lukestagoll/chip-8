@@ -1,7 +1,7 @@
 #include "Opcode.h"
 #include <stdexcept>
 
-void Opcode::execute(uint16_t opcode, CPU &cpu, Memory &memory)
+void Opcode::execute(uint16_t opcode, CPU &cpu)
 {
     switch (opcode & 0xF000)
     {

@@ -3,10 +3,7 @@
 
 Memory::Memory()
 {
-    for (int i = 0; i < 4096; ++i)
-    {
-        memory[i] = 0;
-    }
+    clear();
 };
 
 uint8_t Memory::read(uint16_t address) const
@@ -35,4 +32,12 @@ void Memory::safeWrite(uint16_t address, uint8_t value)
         throw std::out_of_range("Invalid memory write");
     }
     memory[address] = value;
+}
+
+void Memory::clear()
+{
+    for (int i = 0; i < 4096; ++i)
+    {
+        memory[i] = 0;
+    }
 }

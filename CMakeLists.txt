@@ -29,6 +29,7 @@ add_subdirectory(external/SDL)
 set(CORE_SOURCES
     src/core/Chip8.cpp
     src/core/CPU.cpp
+    src/core/Display.cpp
     src/core/Memory.cpp
     src/core/opcode/Opcode.cpp
     src/core/opcode/handlers/Handle0x0.cpp

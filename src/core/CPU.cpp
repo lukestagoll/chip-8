@@ -1,8 +1,9 @@
 #include "CPU.h"
+#include "Memory.h"
 #include "Opcode.h"
 #include <stdexcept>
 
-CPU::CPU()
+CPU::CPU(Memory &mem, Display &disp) : memory(mem), display(disp)
 {
     initRegisters();
     initStack();
@@ -32,18 +33,17 @@ void CPU::initStack()
 
 void CPU::cycle()
 {
-
     // Emulate one cycle of the Chip-8 CPU
 
     // Fetch instruction from memory at the current program counter
-    if (program_counter >= MEMORY_LIMIT)
+    if (program_counter >= Memory::MEMORY_LIMIT)
     {
         throw std::runtime_error("Error: program counter out of bounds");
     }
 
-    uint16_t opcode = memory->read(program_counter) << 8 | memory->read(program_counter + 1);
+    uint16_t opcode = memory.read(program_counter) << 8 | memory.read(program_counter + 1);
     program_counter += 2;
 
     // Decode & Execute the instruction
-    Opcode::execute(opcode, *this, *memory);
+    Opcode::execute(opcode, *this);
 }

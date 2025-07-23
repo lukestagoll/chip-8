@@ -2,11 +2,10 @@
 
 #include <cstdint>
 
-#define MEMORY_LIMIT 4096
-
 class Memory
 {
 public:
+    static constexpr int MEMORY_LIMIT = 4096;
     Memory();
 
     uint8_t read(uint16_t address) const;
@@ -23,4 +22,6 @@ private:
         0x200-0xFFF: Program ROM and RAM
     */
     uint8_t memory[MEMORY_LIMIT]; // 4KB of memory
+
+    void clear();
 };

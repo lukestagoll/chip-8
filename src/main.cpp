@@ -2,7 +2,7 @@
 #include <SDL3/SDL_main.h>
 
 #include "Chip8.h"
-#include "SDL3/SDL_stdinc.h"
+#include "Display.h"
 
 #define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 320
@@ -47,6 +47,7 @@ int main(int argc, char* argv[]) {
 
     if (fail) return fail;
 
+    uint32_t pixels[Display::SIZE];
     for (;;)
     {
         chip8.tick();
@@ -56,14 +57,15 @@ int main(int argc, char* argv[]) {
             SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
             SDL_RenderClear(renderer);
 
-            uint8_t *display = chip8.getDisplay();
-            uint32_t pixels[2048];
-            for (int i = 0; i < 64 * 32; ++i)
+            Display *display = chip8.getDisplay();
+            const uint8_t *displayBuffer = display->getBuffer();
+
+            for (int i = 0; i < Display::SIZE; ++i)
             {
-                pixels[i] = display[i] ? 0xFFFFFFFF : 0x000000FF;
+                pixels[i] = displayBuffer[i] ? 0xFFFFFFFF : 0x000000FF;
             }
 
-            SDL_UpdateTexture(texture, nullptr, pixels, 64 * sizeof(uint32_t));
+            SDL_UpdateTexture(texture, nullptr, pixels, Display::WIDTH * sizeof(uint32_t));
 
             SDL_RenderTexture(renderer, texture, nullptr, nullptr);
 

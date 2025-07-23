@@ -1,10 +1,9 @@
 #pragma once
 
 #include "CPU.h"
-#include "Memory.h"
 
 namespace Opcode {
-    void execute(uint16_t opcode, CPU &cpu, Memory &memory);
+    void execute(uint16_t opcode, CPU &cpu);
 
     // handles 00E0, 00EE
     void handle0x0(uint16_t opcode, CPU &cpu);

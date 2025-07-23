@@ -1,18 +1,15 @@
 #include "Chip8.h"
 #include "Font.h"
+#include "Memory.h"
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 
-Chip8::Chip8() : memory(), cpu()
+Chip8::Chip8() : memory(), display(), cpu(memory, display)
 {
     loadFontSet();
     initKeypad();
-    clearDisplay();
-
-    cpu.attachMemory(&memory);
 }
-
 
 int Chip8::loadROM(const char *filename)
 {
@@ -23,8 +20,8 @@ int Chip8::loadROM(const char *filename)
         return 1;
     }
 
-    size_t index = PROGRAM_START_ADDRESS;
-    while (index < MEMORY_LIMIT)
+    size_t index = CPU::PROGRAM_START_ADDRESS;
+    while (index < Memory::MEMORY_LIMIT)
     {
         char byte;
         file.read(&byte, 1);
@@ -47,13 +44,12 @@ void Chip8::tick()
 
     if (cpu.getClearDisplayFlag())
     {
-        clearDisplay();
+        display.clear();
         cpu.setClearDisplayFlag(false);
     }
-
-    if (cpu.getDrawFlag())
+    else if (cpu.getDrawFlag())
     {
-        setDrawFlag(true);
+        draw_flag = true;
         cpu.setDrawFlag(false);
     }
 }
@@ -72,13 +68,4 @@ void Chip8::initKeypad()
     {
         keypad[i] = 0;
     }
-}
-
-void Chip8::clearDisplay()
-{
-    for (int i = 0; i < 2048; ++i)
-    {
-        display[i] = 0;
-    }
-    setDrawFlag(true);
 }
