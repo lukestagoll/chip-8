@@ -21,6 +21,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XY0` - set VX to the value of VY.
 - `8XY1` - set VX to the value of VX or VY (VX |= VY).
 - `8XY2` - set VX to the value of VX and VY (VX &= VY).
+- `8XY3` - set VX to the value of VX xor VY (VX ^= VY).
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 

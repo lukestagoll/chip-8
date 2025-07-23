@@ -20,8 +20,8 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.andV(x, y);
         break;
     case 0x8003:
-        // TODO: Set VX to VX XOR VY
-        throw std::runtime_error("Unimplemented opcode (0x8XY3): " + std::to_string(opcode));
+        cpu.xorV(x, y);
+        break;
     case 0x8004:
         /*
             TODO: Add the value of register VY to register VX
