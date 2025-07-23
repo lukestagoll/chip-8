@@ -15,15 +15,15 @@ void CPU::initRegisters()
     {
         V[i] = 0;
     }
-    I = 0;
-    delay_timer = 0;
-    sound_timer = 0;
-    program_counter = PROGRAM_START_ADDRESS;
+    indexRegister = 0;
+    delayTimer = 0;
+    soundTimer = 0;
+    programCounter = PROGRAM_START_ADDRESS;
 }
 
 void CPU::initStack()
 {
-    stack_pointer = 0;
+    stackPointer = 0;
 
     for (int i = 0; i < 16; ++i)
     {
@@ -36,13 +36,13 @@ void CPU::cycle()
     // Emulate one cycle of the Chip-8 CPU
 
     // Fetch instruction from memory at the current program counter
-    if (program_counter >= Memory::MEMORY_LIMIT)
+    if (programCounter >= Memory::MEMORY_LIMIT)
     {
         throw std::runtime_error("Error: program counter out of bounds");
     }
 
-    uint16_t opcode = memory.read(program_counter) << 8 | memory.read(program_counter + 1);
-    program_counter += 2;
+    uint16_t opcode = memory.read(programCounter) << 8 | memory.read(programCounter + 1);
+    programCounter += 2;
 
     // Decode & Execute the instruction
     Opcode::execute(opcode, *this);

@@ -3,7 +3,7 @@
 Display::Display()
 {
     clear();
-    draw_flag = false;
+    drawFlag = false;
 }
 
 void Display::clear()
@@ -12,5 +12,5 @@ void Display::clear()
     {
         buffer[i] = 0;
     }
-    draw_flag = true;
+    drawFlag = true;
 }

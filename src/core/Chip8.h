@@ -12,8 +12,8 @@ public:
     int loadROM(const char *filename);
     void tick();
 
-    void setDrawFlag(bool value) { draw_flag = value; }
-    bool getDrawFlag() const { return draw_flag; }
+    void setDrawFlag(bool value) { drawFlag = value; }
+    bool getDrawFlag() const { return drawFlag; }
     Display *getDisplay() { return &display; }
 
 private:
@@ -23,7 +23,7 @@ private:
 
     uint8_t keypad[16];    // Keypad state (0-9, A-F)
 
-    bool draw_flag = false;
+    bool drawFlag = false;
 
     void loadFontSet();
     void initKeypad();

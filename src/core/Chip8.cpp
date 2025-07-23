@@ -49,7 +49,7 @@ void Chip8::tick()
     }
     else if (cpu.getDrawFlag())
     {
-        draw_flag = true;
+        drawFlag = true;
         cpu.setDrawFlag(false);
     }
 }
@@ -58,7 +58,7 @@ void Chip8::loadFontSet()
 {
     for (int i = 0; i < 80; ++i)
     {
-        memory.safeWrite(0x050 + i, system_font[i]);
+        memory.safeWrite(0x050 + i, systemFont[i]);
     }
 }
 

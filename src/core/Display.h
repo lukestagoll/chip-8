@@ -16,5 +16,5 @@ public:
 
 private:
     uint8_t buffer[SIZE];
-    bool draw_flag = false;
+    bool drawFlag = false;
 };
