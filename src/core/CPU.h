@@ -18,6 +18,7 @@ public:
 
     uint8_t getV(uint8_t index) { return V[index]; };
     void setV(uint8_t index, uint8_t value) { V[index] = value; };
+    void orV(uint8_t x, uint8_t y) { V[x] |= V[y]; };
     void addV(uint8_t index, uint8_t value) { V[index] += value; };
     bool compareVXVY(uint8_t x, uint8_t y) { return V[x] == V[y]; };
     bool vEquals(uint8_t index, uint8_t value) { return V[index] == value; };
