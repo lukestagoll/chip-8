@@ -14,10 +14,11 @@ public:
     void cycle();
     void clearDrawFlag() { display.clearDrawFlag(); }
     bool getDrawFlag() const { return display.getDrawFlag(); }
+    void skipNextInstruction() { programCounter += 2; }
 
     void setV(uint8_t index, uint8_t value) { V[index] = value; };
-    void addV(uint8_t index, uint8_t value) { V[index] += value; }
-
+    void addV(uint8_t index, uint8_t value) { V[index] += value; };
+    bool vEquals(uint8_t index, uint8_t value) { return V[index] == value; };
 
     void setVF(uint8_t value) { V[15] = value; };
     void setIndexRegister(uint16_t addr) { indexRegister = addr; };

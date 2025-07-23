@@ -9,7 +9,10 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 ## Current Implementation Status
 ### Implemented Opcodes
 - `00E0` - Clear display
+- `1NNN` - jump to address NNN
+- `3XNN` - if VX == NN, skip next instruction (if VX != NN then)
 - `6XNN` - Set register VX to NN
+- `7XNN` - Add NN to VX (VX += NN)
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 
