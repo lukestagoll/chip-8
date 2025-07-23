@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
     }
 
     SDL_Texture *texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, 64, 32);
+    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 
     const char *romFile = "roms/1-chip8-logo.ch8";
     int fail = chip8.loadROM(romFile);

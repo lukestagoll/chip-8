@@ -22,6 +22,8 @@ public:
     void drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
     void clearDisplay() { display.clear(); }
 
+    void jump(uint16_t address) { programCounter = address; }
+
 private:
     Memory &memory;
     Display &display;
@@ -38,7 +40,6 @@ private:
 
     uint8_t stackPointer;    // Stack pointer
 
-    void
-    initRegisters();
+    void initRegisters();
     void initStack();
 };
