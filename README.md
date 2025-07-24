@@ -45,6 +45,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 The following ROM images have been tested and run successfully:
 - [CHIP-8 Test Suite: CHIP-8 splash screen (1-chip8-logo.ch8)](https://github.com/Timendus/chip8-test-suite#chip-8-splash-screen)
 - [CHIP-8 Test Suite: IBM logo (2-ibm-logo.ch8)](https://github.com/Timendus/chip8-test-suite#ibm-logo)
+- [CHIP-8 Test Suite: Corax+ opcode test (3-corax+.ch8)](https://github.com/Timendus/chip8-test-suite#corax-opcode-test)
 
 ## Specifications
 
