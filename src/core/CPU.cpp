@@ -148,3 +148,8 @@ void CPU::writeBCDToMemory(uint8_t index)
     memory.write(indexRegister + 1, value / 10 % 10);
     memory.write(indexRegister + 2, value % 10);
 }
+
+void CPU::addRegisterToIndex(uint8_t index)
+{
+    indexRegister += V[index];
+}

@@ -22,8 +22,8 @@ void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
         // TODO: Set the sound timer to the value of register VX
         throw std::runtime_error("Unimplemented opcode (0xFX18): " + std::to_string(opcode));
     case 0x001E:
-        // TODO: Add the value stored in register VX to register I
-        throw std::runtime_error("Unimplemented opcode (0xFX1E): " + std::to_string(opcode));
+        cpu.addRegisterToIndex(x);
+        break;
     case 0x0029:
         // TODO: Set I to the memory address of the sprite data corresponding to the hexadecimal digit stored in register VX
         throw std::runtime_error("Unimplemented opcode (0xFX29): " + std::to_string(opcode));

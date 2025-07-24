@@ -169,6 +169,15 @@ public:
      */
     void writeBCDToMemory(uint8_t index);
 
+    /**
+     * Add the value of the register at VX to I.
+     * 
+     * I += VX
+     *
+     * @param index The index of the register to add.
+     */
+    void addRegisterToIndex(uint8_t index);
+
   private:
     Memory &memory;
     Display &display;
