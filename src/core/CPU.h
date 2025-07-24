@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Memory.h"
 #include "Display.h"
+#include "Memory.h"
+#include "Timer.h"
 
 #include <array>
 #include <cstdint>
@@ -13,7 +14,7 @@ public:
     static constexpr std::size_t STACK_DEPTH = 16;
     static constexpr uint8_t VF = 0xF;
 
-    CPU(Memory &memory, Display &display);
+    CPU(Memory &memory, Display &display, Timer &delayTimer, Timer &soundTimer);
 
     // --- Program Control / Flow Execution ---
 
@@ -178,18 +179,21 @@ public:
      */
     void addRegisterToIndex(uint8_t index);
 
-  private:
+    // --- Timer Operations ---
+    void storeDelay(uint8_t index) { V[index] = delayTimer.get(); }
+    void setDelayTimer(uint8_t index) { delayTimer.set(V[index]); }
+    void setSoundTimer(uint8_t index) { soundTimer.set(V[index]); }
+
+private:
     Memory &memory;
     Display &display;
+    Timer &delayTimer;
+    Timer &soundTimer;
 
     // Registers
     std::array<uint8_t, NUM_REGISTERS> V{}; // 16 8-bit registers
     uint16_t indexRegister = 0;     // I register
     uint16_t programCounter = PROGRAM_START_ADDRESS;
-
-    // Timers
-    uint8_t delayTimer = 0;
-    uint8_t soundTimer = 0;
 
     // Subroutine Stack
     std::array<uint16_t, STACK_DEPTH> stack{};

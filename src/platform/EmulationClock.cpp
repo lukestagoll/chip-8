@@ -21,8 +21,7 @@ void EmulationClock::consumeTick()
 
 void EmulationClock::updateClockRate(int rate)
 {
-    if (rate <= 0)
-        return;
+    if (rate <= 0) return;
     clockRate = rate;
     tickInterval = 1.0 / clockRate;
 }

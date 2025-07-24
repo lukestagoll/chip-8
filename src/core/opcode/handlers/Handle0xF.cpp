@@ -10,17 +10,17 @@ void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
     switch (opcode & 0x00FF)
     {
     case 0x0007:
-        // TODO: Store the current value of the delay timer in register VX
-        throw std::runtime_error("Unimplemented opcode (0xFX07): " + std::to_string(opcode));
+        cpu.storeDelay(x);
+        break;
     case 0x000A:
         // TODO: Wait for a keypress and store the result in register VX
         throw std::runtime_error("Unimplemented opcode (0xFX0A): " + std::to_string(opcode));
     case 0x0015:
-        // TODO: Set the delay timer to the value of register VX
-        throw std::runtime_error("Unimplemented opcode (0xFX15): " + std::to_string(opcode));
+        cpu.setDelayTimer(x);
+        break;
     case 0x0018:
-        // TODO: Set the sound timer to the value of register VX
-        throw std::runtime_error("Unimplemented opcode (0xFX18): " + std::to_string(opcode));
+        cpu.setSoundTimer(x);
+        break;
     case 0x001E:
         cpu.addRegisterToIndex(x);
         break;

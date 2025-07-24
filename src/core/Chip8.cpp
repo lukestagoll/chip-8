@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 
-Chip8::Chip8() : memory(), display(), cpu(memory, display)
+Chip8::Chip8() : memory(), display(), cpu(memory, display, delayTimer, soundTimer)
 {
     loadFontSet();
     initKeypad();
@@ -57,4 +57,10 @@ void Chip8::initKeypad()
     {
         keypad[i] = 0;
     }
+}
+
+void Chip8::updateTimers()
+{
+    delayTimer.update();
+    soundTimer.update();
 }

@@ -31,6 +31,7 @@ set(CORE_SOURCES
     src/core/CPU.cpp
     src/core/Display.cpp
     src/core/Memory.cpp
+    src/core/Timer.cpp
     src/core/opcode/Opcode.cpp
     src/core/opcode/handlers/Handle0x0.cpp
     src/core/opcode/handlers/Handle0x1.cpp

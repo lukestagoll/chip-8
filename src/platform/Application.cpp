@@ -37,6 +37,8 @@ int Application::run(const char *romFile)
 
             emuClock.consumeTick();
         }
+
+        chip8.updateTimers();
     }
 
     texture.destroy();
