@@ -1,14 +1,12 @@
 #include "Application.h"
-#include "Display.h"
 #include "Chip8.h"
+#include "Display.h"
 
 #include <SDL3/SDL.h>
 
 int Application::run(const char *romFile)
 {
-    if (!initSDL() ||
-        !window.create() ||
-        !renderer.create(window.get()) ||
+    if (!initSDL() || !window.create() || !renderer.create(window.get()) ||
         !texture.create(renderer.get(), Display::WIDTH, Display::HEIGHT))
     {
         return 1;
@@ -22,15 +20,22 @@ int Application::run(const char *romFile)
 
     for (;;)
     {
-        chip8.tick();
-        if (chip8.getDrawFlag())
+        emuClock.update();
+
+        while (emuClock.shouldTick())
         {
-            renderer.clear();
+            chip8.tick();
+            if (chip8.getDrawFlag())
+            {
+                renderer.clear();
 
-            texture.update(chip8.getDisplayBuffer());
+                texture.update(chip8.getDisplayBuffer());
 
-            renderer.renderTexture(texture.get());
-            chip8.clearDrawFlag();
+                renderer.renderTexture(texture.get());
+                chip8.clearDrawFlag();
+            }
+
+            emuClock.consumeTick();
         }
     }
 
@@ -40,7 +45,6 @@ int Application::run(const char *romFile)
     SDL_Quit();
     return 0;
 }
-
 
 bool Application::initSDL()
 {

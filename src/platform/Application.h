@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Chip8.h"
+#include "EmulationClock.h"
 #include "Renderer.h"
 #include "Texture.h"
 #include "Window.h"
@@ -16,4 +17,5 @@ private:
     Renderer renderer;
     Texture texture;
     Chip8 chip8;
+    EmulationClock emuClock;
 };

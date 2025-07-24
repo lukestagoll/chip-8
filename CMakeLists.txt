@@ -52,6 +52,7 @@ set(CORE_SOURCES
 
 set(PLATFORM_SOURCES
     src/platform/Application.cpp
+    src/platform/EmulationClock.cpp
     src/platform/Renderer.cpp
     src/platform/Texture.cpp
     src/platform/Window.cpp
