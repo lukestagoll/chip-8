@@ -31,7 +31,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 
 ### Current Limitations
-- Only basic opcodes implemented (4 out of 35 total)
+- 21 out of 35 opcodes implemented
 - Program execution stops when unimplemented opcodes are encountered
 - No input handling yet
 - No sound system implemented

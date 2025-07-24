@@ -14,28 +14,28 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
         cpu.assignV(x, y);
         break;
     case 0x8001:
-        cpu.orV(x, y);
+        cpu.bitwiseOR(x, y);
         break;
     case 0x8002:
-        cpu.andV(x, y);
+        cpu.bitwiseAND(x, y);
         break;
     case 0x8003:
-        cpu.xorV(x, y);
+        cpu.bitwiseXOR(x, y);
         break;
     case 0x8004:
-        cpu.addVV(x, y);
+        cpu.addRegisters(x, y);
         break;
     case 0x8005:
-        cpu.subVV(x, y);
+        cpu.subtractRegisters(x, y);
         break;
     case 0x8006:
-        cpu.shiftVRight(x);
+        cpu.shiftRight(x);
         break;
     case 0x8007:
-        cpu.setVXsubVYVX(x, y);
+        cpu.subtractReversed(x, y);
         break;
     case 0x800E:
-        cpu.shiftVLeft(x);
+        cpu.shiftLeft(x);
         break;
     default:
         throw std::runtime_error("Unknown opcode: " + std::to_string(opcode));

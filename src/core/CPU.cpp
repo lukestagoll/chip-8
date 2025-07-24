@@ -3,33 +3,9 @@
 #include "Opcode.h"
 #include <stdexcept>
 
-CPU::CPU(Memory &mem, Display &disp) : memory(mem), display(disp)
-{
-    initRegisters();
-    initStack();
-}
+CPU::CPU(Memory &mem, Display &disp) : memory(mem), display(disp) {}
 
-void CPU::initRegisters()
-{
-    for (int i = 0; i < 16; ++i)
-    {
-        V[i] = 0;
-    }
-    indexRegister = 0;
-    delayTimer = 0;
-    soundTimer = 0;
-    programCounter = PROGRAM_START_ADDRESS;
-}
-
-void CPU::initStack()
-{
-    stackPointer = 0;
-
-    for (int i = 0; i < 16; ++i)
-    {
-        stack[i] = 0;
-    }
-}
+// --- Program Control / Flow Execution ---
 
 void CPU::cycle()
 {
@@ -46,6 +22,27 @@ void CPU::cycle()
 
     // Decode & Execute the instruction
     Opcode::execute(opcode, *this);
+}
+
+void CPU::callSubroutine(uint16_t address)
+{
+
+    if (stackPointer >= 16)
+    {
+        throw std::overflow_error("Stack limit reached");
+    }
+    stack[stackPointer++] = programCounter;
+
+    programCounter = address;
+}
+
+void CPU::exitSubroutine()
+{
+    if (stackPointer == 0)
+    {
+        throw std::underflow_error("Stack empty");
+    }
+    programCounter = stack[--stackPointer];
 }
 
 /**
@@ -86,23 +83,50 @@ void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
     V[0xF] = collision ? 1 : 0;
 }
 
-void CPU::callSubroutine(uint16_t address)
+// --- Arithmetic and Logic Instructions ---
+
+void CPU::addRegisters(uint8_t x, uint8_t y)
 {
-
-    if (stackPointer >= 16)
-    {
-        throw std::overflow_error("Stack limit reached");
-    }
-    stack[stackPointer++] = programCounter;
-
-    programCounter = address;
+    uint16_t sum = V[x] + V[y];
+    V[VF] = sum > 0xFF ? 1 : 0;
+    V[x] = static_cast<uint8_t>(sum);
 }
 
-void CPU::exitSubroutine()
+void CPU::subtractRegisters(uint8_t x, uint8_t y)
 {
-    if (stackPointer == 0)
-    {
-        throw std::underflow_error("Stack empty");
-    }
-    programCounter = stack[--stackPointer];
+    uint16_t result = V[x] - V[y];
+    V[VF] = V[x] >= V[y] ? 1 : 0;
+    V[x] = static_cast<uint8_t>(result);
+}
+
+void CPU::subtractReversed(uint8_t x, uint8_t y)
+{
+    uint16_t result = V[y] - V[x];
+    V[VF] = V[y] >= V[x] ? 1 : 0;
+    V[x] = static_cast<uint8_t>(result);
+}
+
+void CPU::shiftRight(uint8_t index)
+{
+    V[VF] = V[index] & 0x1;
+    V[index] >>= 1;
+}
+void CPU::shiftLeft(uint8_t index)
+{
+    V[VF] = (V[index] & 0x80) >> 7;
+    V[index] <<= 1;
+}
+
+// --- Comparison ---
+bool CPU::equalsRegisters(uint8_t x, uint8_t y) const
+{
+    return V[x] == V[y];
+}
+bool CPU::equalsImmediate(uint8_t index, uint8_t value) const
+{
+    return V[index] == value;
+}
+bool CPU::notEqualsImmediate(uint8_t index, uint8_t value) const
+{
+    return V[index] != value;
 }

@@ -7,7 +7,7 @@ void Opcode::handle3XNN(uint16_t opcode, CPU &cpu)
 {
     uint8_t index = (opcode >> 8) & 0xF;
     uint16_t value = opcode & 0xFF;
-    if (cpu.vEquals(index, value))
+    if (cpu.equalsImmediate(index, value))
     {
         cpu.skipNextInstruction();
     }
