@@ -160,6 +160,15 @@ public:
      */
     void saveRegistersToMemory(uint8_t index);
 
+    /**
+     * Store the binary encoded decimal (BCD) at VX in memory at I, I + 1, I + 2.
+     *
+     * For example, if VX = 123, set mem[I] = 1, mem[I+1] = 2, mem[I+2] = 2
+     *
+     * @param index The index of the register to encode.
+     */
+    void writeBCDToMemory(uint8_t index);
+
   private:
     Memory &memory;
     Display &display;

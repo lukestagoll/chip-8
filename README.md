@@ -29,6 +29,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XYE` - sets VF to most significant bit of VX, shift VX to the left by 1. (VX left= 1)
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
+- `FX33` - Store the binary-coded decimal equivalent of VX at I, I + 1, and I + 2
 - `FX55` - Store values of V0 to VX (inclusive) in memory starting at address I. I is not modified.
 - `FX65` - Loads values of memory starting at address I into V0 to VX (inclusive). I is not modified.
 
