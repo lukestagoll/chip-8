@@ -123,3 +123,20 @@ bool CPU::notEqualsImmediate(uint8_t index, uint8_t value) const
 {
     return V[index] != value;
 }
+
+// --- Memory Operations ---
+void CPU::loadRegistersFromMemory(uint8_t index)
+{
+    for (uint8_t i = 0; i <= index; i++)
+    {
+        V[i] = memory.read(indexRegister + i);
+    }
+}
+
+void CPU::saveRegistersToMemory(uint8_t index)
+{
+    for (uint8_t i = 0; i <= index; i++)
+    {
+        memory.write(indexRegister + i, V[i]);
+    }
+}

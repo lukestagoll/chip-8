@@ -5,6 +5,8 @@
 
 void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
 {
+    uint8_t x = (opcode >> 8) & 0xF;
+
     switch (opcode & 0x00FF)
     {
     case 0x0007:
@@ -29,11 +31,11 @@ void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
         // TODO: Store the binary-coded decimal equivalent of the value stored in register VX at addresses I, I + 1, and I + 2
         throw std::runtime_error("Unimplemented opcode (0xFX33): " + std::to_string(opcode));
     case 0x0055:
-        // TODO: Store the values of registers V0 to VX inclusive in memory starting at address I. I is set to I + X + 1 after operation
-        throw std::runtime_error("Unimplemented opcode (0xFX55): " + std::to_string(opcode));
+        cpu.saveRegistersToMemory(x);
+        break;
     case 0x0065:
-        // TODO: Fill registers V0 to VX inclusive with the values stored in memory starting at address I. I is set to I + X + 1 after operation
-        throw std::runtime_error("Unimplemented opcode (0xFX65): " + std::to_string(opcode));
+        cpu.loadRegistersFromMemory(x);
+        break;
     default:
         throw std::runtime_error("Unknown opcode: " + std::to_string(opcode));
     }

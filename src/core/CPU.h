@@ -141,8 +141,26 @@ public:
     bool equalsImmediate(uint8_t index, uint8_t value) const;
     bool notEqualsImmediate(uint8_t index, uint8_t value) const;
 
+    // --- Memory Operations ---
+    /**
+     * Loads values from memory starting from the address stored in the index register into registers V0 through VX (inclusive).
+     *
+     * Does NOT modify the address stored in the index register (I) - consistency with modern interpreters.
+     *
+     * @param index The highest register index to load (inclusive).
+     */
+    void loadRegistersFromMemory(uint8_t index);
 
-private:
+    /**
+     * Stores values from registers V0 through VX (inclusive) into memory starting from the address stored in the index register.
+     *
+     * Does NOT modify the address stored in the index register (I) - consistency with modern interpreters.
+     *
+     * @param index The highest register index to save (inclusive).
+     */
+    void saveRegistersToMemory(uint8_t index);
+
+  private:
     Memory &memory;
     Display &display;
 
