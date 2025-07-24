@@ -81,33 +81,38 @@ void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
 void CPU::addRegisters(uint8_t x, uint8_t y)
 {
     uint16_t sum = V[x] + V[y];
-    V[VF] = sum > 0xFF ? 1 : 0;
+    uint8_t vf = sum > 0xFF ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(sum);
+    V[VF] = vf;
 }
 
 void CPU::subtractRegisters(uint8_t x, uint8_t y)
 {
     uint16_t result = V[x] - V[y];
-    V[VF] = V[x] >= V[y] ? 1 : 0;
+    uint8_t vf = V[x] >= V[y] ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(result);
+    V[VF] = vf;
 }
 
 void CPU::subtractReversed(uint8_t x, uint8_t y)
 {
     uint16_t result = V[y] - V[x];
-    V[VF] = V[y] >= V[x] ? 1 : 0;
+    uint8_t vf = V[y] >= V[x] ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(result);
+    V[VF] = vf;
 }
 
 void CPU::shiftRight(uint8_t index)
 {
-    V[VF] = V[index] & 0x1;
+    uint8_t vf = V[index] & 0x1;
     V[index] >>= 1;
+    V[VF] = vf;
 }
 void CPU::shiftLeft(uint8_t index)
 {
-    V[VF] = (V[index] & 0x80) >> 7;
+    uint8_t vf = (V[index] & 0x80) >> 7;
     V[index] <<= 1;
+    V[VF] = vf;
 }
 
 // --- Comparison ---
