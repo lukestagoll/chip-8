@@ -9,18 +9,15 @@ CPU::CPU(Memory &mem, Display &disp) : memory(mem), display(disp) {}
 
 void CPU::cycle()
 {
-    // Emulate one cycle of the Chip-8 CPU
-
-    // Fetch instruction from memory at the current program counter
     if (programCounter >= Memory::MEMORY_LIMIT)
     {
         throw std::runtime_error("Error: program counter out of bounds");
     }
 
+    // Combine two 8-bit values into a single 16-bit opcode
     uint16_t opcode = memory.read(programCounter) << 8 | memory.read(programCounter + 1);
     programCounter += 2;
 
-    // Decode & Execute the instruction
     Opcode::execute(opcode, *this);
 }
 
@@ -45,10 +42,6 @@ void CPU::exitSubroutine()
     programCounter = stack[--stackPointer];
 }
 
-/**
-    Draws a sprite at position VX, VY with N bytes of sprite data starting at the address stored in I.
-    Set VF to 01 if any set pixels are changed to unset, and 00 otherwise
-*/
 void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
 {
     // wrap the coordinates - since display width & height are powers of 2, can use bitwise `AND` rather than modulo.

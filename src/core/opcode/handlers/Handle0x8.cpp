@@ -11,7 +11,7 @@ void Opcode::handle0x8(uint16_t opcode, CPU &cpu)
     switch (opcode & 0xF00F)
     {
     case 0x8000:
-        cpu.assignV(x, y);
+        cpu.copyRegister(x, y);
         break;
     case 0x8001:
         cpu.bitwiseOR(x, y);

@@ -16,8 +16,32 @@ public:
     CPU(Memory &memory, Display &display);
 
     // --- Program Control / Flow Execution ---
+
+    /**
+     * Executes one CPU cycle of the fetch-decode-execute process.
+     * 1. Fetches a 16-bit instruction from memory at the current program counter
+     * 2. Increments program counter by 2 bytes
+     * 3. Decodes and executes the instruction via the Opcode handler
+     *
+     * @throws std::runtime_error if program counter exceeds memory bounds
+     */
     void cycle();
+
+    /**
+     * Calls a subroutine at the specified address.
+     * Pushes the current program counter onto the stack and jumps to the target address.
+     *
+     * @param address The memory address to jump to
+     * @throws std::overflow_error if the call stack is full (16 levels deep)
+     */
     void callSubroutine(uint16_t address);
+
+    /**
+     * Returns from a subroutine by restoring the program counter from the stack.
+     * Pops the return address from the top of the stack.
+     *
+     * @throws std::underflow_error if attempting to return when stack is empty
+     */
     void exitSubroutine();
     void skipNextInstruction() { programCounter += 2; }
     void jump(uint16_t address) { programCounter = address; }
@@ -26,19 +50,83 @@ public:
     void clearDrawFlag() { display.clearDrawFlag(); }
     bool getDrawFlag() const { return display.getDrawFlag(); }
     void clearDisplay() { display.clear(); }
+
+    /**
+     * Draws a sprite at the specified screen coordinates.
+     * Sprites are 8 pixels wide and N pixels tall, using XOR drawing mode.
+     * Screen coordinates wrap around if they exceed display boundaries.
+     *
+     * @param vx Register index containing X coordinate
+     * @param vy Register index containing Y coordinate
+     * @param n Height of the sprite in pixels (1-15)
+     *
+     * Sets VF register:
+     * - 1 if any pixels were erased (collision detected)
+     * - 0 if no pixels were erased
+     */
     void drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
     
     // --- General-purpose Register Access ---
     uint8_t getV(uint8_t index) const { return V[index]; }
     void setV(uint8_t index, uint8_t value) { V[index] = value; }
-    void assignV(uint8_t x, uint8_t y) { V[x] = V[y]; }
+
+    /**
+     * Stores the value of the second register in the first register
+     * VX = VY
+     *
+     * @param x Target register index (result stored here)
+     * @param y Source register index to copy
+     */
+    void copyRegister(uint8_t x, uint8_t y) { V[x] = V[y]; }
     void setVF(uint8_t value) { V[VF] = value; }
     void setIndexRegister(uint16_t addr) { indexRegister = addr; }
 
     // --- Arithmetic and Logic Instructions ---
     void addImmediate(uint8_t index, uint8_t value) { V[index] += value; }
+
+    /**
+     * Adds the values of two registers and stores the result in the first register.
+     * Sets the carry flag (VF) if the result overflows 8 bits.
+     *
+     * VX += VY
+     *
+     * @param x Target register index (result stored here)
+     * @param y Source register index to add
+     *
+     * Sets VF register:
+     * - 1 if addition overflows (sum > 255)
+     * - 0 if no overflow occurs
+     */
     void addRegisters(uint8_t x, uint8_t y);
+
+    /**
+     * Subtracts register Y from register X and stores the result in register X.
+     * Sets the borrow flag (VF) based on whether a borrow occurred.
+     *
+     * VX -= VY
+     *
+     * @param x Target register index (minuend, result stored here)
+     * @param y Source register index (subtrahend)
+     *
+     * Sets VF register:
+     * - 1 if no borrow (VX >= VY)
+     * - 0 if borrow occurred (VX < VY)
+     */
     void subtractRegisters(uint8_t x, uint8_t y);
+
+    /**
+     * Subtracts register X from register Y and stores the result in register X.
+     * This is the reverse of subtractRegisters.
+     * 
+     * VX = VY - VX
+     *
+     * @param x Target register index (result stored here)
+     * @param y Source register index (minuend)
+     *
+     * Sets VF register:
+     * - 1 if no borrow (VY >= VX)
+     * - 0 if borrow occurred (VY < VX)
+     */
     void subtractReversed(uint8_t x, uint8_t y);
 
     void shiftRight(uint8_t index);
