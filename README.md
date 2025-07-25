@@ -36,12 +36,13 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `FX15` - Set the delay timer to the value of register VX
 - `FX18` - Set the sound timer to the value of register VX
 - `FX1E` - Add the value of VX to I
+- `FX29` - Set I to the memory address of the sprite data corresponding to the hexadecimal digit stored in register VX
 - `FX33` - Store the binary-coded decimal equivalent of VX at I, I + 1, and I + 2
 - `FX55` - Store values of V0 to VX (inclusive) in memory starting at address I. I is not modified.
 - `FX65` - Loads values of memory starting at address I into V0 to VX (inclusive). I is not modified.
 
 ### Current Limitations
-- 31 out of 35 opcodes implemented
+- 32 out of 35 opcodes implemented
 - Program execution stops when unimplemented opcodes are encountered
 - No sound system implemented
 

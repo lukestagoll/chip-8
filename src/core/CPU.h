@@ -82,6 +82,7 @@ public:
     void copyRegister(uint8_t x, uint8_t y) { V[x] = V[y]; }
     void setVF(uint8_t value) { V[VF] = value; }
     void setIndexRegister(uint16_t addr) { indexRegister = addr; }
+    void setIndexRegisterFromV(uint16_t index) { indexRegister = 0x050 + (V[index] * 5); }
 
     // --- Arithmetic and Logic Instructions ---
     void addImmediate(uint8_t index, uint8_t value) { V[index] += value; }

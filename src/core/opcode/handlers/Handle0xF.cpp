@@ -25,8 +25,8 @@ void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
         cpu.addRegisterToIndex(x);
         break;
     case 0x0029:
-        // TODO: Set I to the memory address of the sprite data corresponding to the hexadecimal digit stored in register VX
-        throw std::runtime_error("Unimplemented opcode (0xFX29): " + std::to_string(opcode));
+        cpu.setIndexRegisterFromV(x);
+        break;
     case 0x0033:
         cpu.writeBCDToMemory(x);
         break;
