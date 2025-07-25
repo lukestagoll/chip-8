@@ -58,6 +58,11 @@ void Chip8::updateTimers()
     soundTimer.update();
 }
 
+bool Chip8::playingAudio()
+{
+    return soundTimer.get() > 0;
+}
+
 void Chip8::keydown(Action key)
 {
     keypad.down(key);

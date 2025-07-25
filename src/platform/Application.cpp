@@ -7,7 +7,7 @@
 int Application::run(const char *romFile)
 {
     if (!initSDL() || !window.create() || !renderer.create(window.get()) ||
-        !texture.create(renderer.get(), Display::WIDTH, Display::HEIGHT))
+        !texture.create(renderer.get(), Display::WIDTH, Display::HEIGHT) || !audio.create())
     {
         return 1;
     }
@@ -22,6 +22,9 @@ int Application::run(const char *romFile)
     {
         eventHandler.pollEvents();
         emuClock.update();
+
+        if (chip8.playingAudio()) audio.start();
+        else audio.stop();
 
         while (emuClock.shouldTick())
         {
@@ -51,7 +54,7 @@ int Application::run(const char *romFile)
 
 bool Application::initSDL()
 {
-    if (!SDL_Init(SDL_INIT_VIDEO))
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
     {
         SDL_Log("Could not initialize SDL: %s", SDL_GetError());
         return false;

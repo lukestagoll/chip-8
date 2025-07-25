@@ -54,6 +54,7 @@ set(CORE_SOURCES
 
 set(PLATFORM_SOURCES
     src/platform/Application.cpp
+    src/platform/Audio.cpp
     src/platform/EmulationClock.cpp
     src/platform/EventHandler.cpp
     src/platform/Keymap.cpp

@@ -20,6 +20,7 @@ public:
     const uint8_t *getDisplayBuffer() const { return display.getBuffer(); }
 
     void updateTimers();
+    bool playingAudio();
 
     void keydown(Action key);
     void keyup(Action key);

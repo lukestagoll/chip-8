@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Audio.h"
 #include "Chip8.h"
 #include "EmulationClock.h"
 #include "EventHandler.h"
@@ -21,4 +22,5 @@ private:
     Chip8 chip8;
     EmulationClock emuClock;
     EventHandler eventHandler;
+    Audio audio;
 };
