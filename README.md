@@ -28,6 +28,8 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XY7` - set VX to the value of VY - VX, Set VF to 0 if underflow, else 1. 
 - `8XYE` - sets VF to most significant bit of VX, shift VX to the left by 1. (VX left= 1)
 - `ANNN` - Set index register I to NNN
+- `BNNN` - Jump to address NNN + V0
+- `CXNN` - Set VX to a random number with a mask of NN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
 - `EX9E` - Skip next instruction if key at VX is pressed
 - `EXA1` - Skip next instruction if key at VX is not pressed
@@ -42,7 +44,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `FX65` - Loads values of memory starting at address I into V0 to VX (inclusive). I is not modified.
 
 ### Current Limitations
-- 32 out of 35 opcodes implemented
+- 34 out of 35 opcodes implemented
 - Program execution stops when unimplemented opcodes are encountered
 - No sound system implemented
 

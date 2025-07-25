@@ -7,6 +7,7 @@
 
 #include <array>
 #include <cstdint>
+#include <cstdlib>
 
 class CPU {
 public:
@@ -47,6 +48,7 @@ public:
     void exitSubroutine();
     void skipNextInstruction() { programCounter += 2; }
     void jump(uint16_t address) { programCounter = address; }
+    void jumpV(uint16_t address) { programCounter = address + V[0]; }
 
     // --- Display Operations ---
     void clearDrawFlag() { display.clearDrawFlag(); }
@@ -190,6 +192,8 @@ public:
     bool isKeyPressed(uint8_t index) { return keypad.isPressed(V[index]); }
     void waitForKeyPress(uint8_t index);
     bool waiting();
+
+    void random(uint8_t x, uint8_t nn) { V[x] = (rand() % 256) & nn; }
 
 private:
     Memory &memory;
