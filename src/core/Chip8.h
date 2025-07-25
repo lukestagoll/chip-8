@@ -1,10 +1,11 @@
 #pragma once
+#include "Action.h"
 #include "CPU.h"
 #include "Display.h"
+#include "Keypad.h"
 #include "Memory.h"
 #include "Timer.h"
 
-#include <array>
 #include <cstdint>
 
 class Chip8 {
@@ -20,15 +21,16 @@ public:
 
     void updateTimers();
 
+    void keydown(Action key);
+    void keyup(Action key);
+
 private:
     CPU cpu;
     Memory memory;
     Display display;
     Timer delayTimer;
     Timer soundTimer;
-
-    std::array<uint8_t, 16> keypad; // Keypad state (0-9, A-F)
+    Keypad keypad;
 
     void loadFontSet();
-    void initKeypad();
 };

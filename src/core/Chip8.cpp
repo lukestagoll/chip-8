@@ -5,10 +5,10 @@
 #include <fstream>
 #include <iostream>
 
-Chip8::Chip8() : memory(), display(), cpu(memory, display, delayTimer, soundTimer)
+Chip8::Chip8()
+    : memory(), display(), keypad(), delayTimer(), soundTimer(), cpu(memory, display, delayTimer, soundTimer, keypad)
 {
     loadFontSet();
-    initKeypad();
 }
 
 int Chip8::loadROM(const char *filename)
@@ -51,16 +51,18 @@ void Chip8::loadFontSet()
     }
 }
 
-void Chip8::initKeypad()
-{
-    for (int i = 0; i < 16; ++i)
-    {
-        keypad[i] = 0;
-    }
-}
-
 void Chip8::updateTimers()
 {
     delayTimer.update();
     soundTimer.update();
+}
+
+void Chip8::keydown(Action key)
+{
+    keypad.down(key);
+}
+
+void Chip8::keyup(Action key)
+{
+    keypad.up(key);
 }

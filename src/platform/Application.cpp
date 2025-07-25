@@ -20,6 +20,7 @@ int Application::run(const char *romFile)
 
     for (;;)
     {
+        eventHandler.pollEvents();
         emuClock.update();
 
         while (emuClock.shouldTick())

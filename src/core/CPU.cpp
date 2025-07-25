@@ -3,7 +3,8 @@
 #include "Opcode.h"
 #include <stdexcept>
 
-CPU::CPU(Memory &mem, Display &disp, Timer &delay, Timer &sound) : memory(mem), display(disp), delayTimer(delay), soundTimer(sound) {}
+CPU::CPU(Memory &mem, Display &disp, Timer &delay, Timer &sound, Keypad &keypad)
+    : memory(mem), display(disp), delayTimer(delay), soundTimer(sound), keypad(keypad) {}
 
 // --- Program Control / Flow Execution ---
 

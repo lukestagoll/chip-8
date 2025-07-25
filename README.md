@@ -29,6 +29,8 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `8XYE` - sets VF to most significant bit of VX, shift VX to the left by 1. (VX left= 1)
 - `ANNN` - Set index register I to NNN
 - `DXYN` - Draw a sprite at position VX, VY with N bytes data starting at index register I
+- `EX9E` - Skip next instruction if key at VX is pressed
+- `EXA1` - Skip next instruction if key at VX is not pressed
 - `FX07` - Store the current value of the delay timer in register VX
 - `FX15` - Set the delay timer to the value of register VX
 - `FX18` - Set the sound timer to the value of register VX
@@ -38,7 +40,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `FX65` - Loads values of memory starting at address I into V0 to VX (inclusive). I is not modified.
 
 ### Current Limitations
-- 28 out of 35 opcodes implemented
+- 30 out of 35 opcodes implemented
 - Program execution stops when unimplemented opcodes are encountered
 - No input handling yet
 - No sound system implemented

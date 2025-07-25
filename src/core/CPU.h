@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Display.h"
+#include "Keypad.h"
 #include "Memory.h"
 #include "Timer.h"
 
@@ -14,7 +15,7 @@ public:
     static constexpr std::size_t STACK_DEPTH = 16;
     static constexpr uint8_t VF = 0xF;
 
-    CPU(Memory &memory, Display &display, Timer &delayTimer, Timer &soundTimer);
+    CPU(Memory &memory, Display &display, Timer &delayTimer, Timer &soundTimer, Keypad &keypad);
 
     // --- Program Control / Flow Execution ---
 
@@ -184,11 +185,15 @@ public:
     void setDelayTimer(uint8_t index) { delayTimer.set(V[index]); }
     void setSoundTimer(uint8_t index) { soundTimer.set(V[index]); }
 
+    // --- Keypad ---
+    bool isKeyPressed(uint8_t index) { return keypad.isPressed(V[index]); }
+
 private:
     Memory &memory;
     Display &display;
     Timer &delayTimer;
     Timer &soundTimer;
+    Keypad &keypad;
 
     // Registers
     std::array<uint8_t, NUM_REGISTERS> V{}; // 16 8-bit registers
