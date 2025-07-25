@@ -43,7 +43,6 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 ### Current Limitations
 - 31 out of 35 opcodes implemented
 - Program execution stops when unimplemented opcodes are encountered
-- No input handling yet
 - No sound system implemented
 
 ### Tested ROMs
