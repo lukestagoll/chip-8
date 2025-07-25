@@ -30,6 +30,7 @@ set(CORE_SOURCES
     src/core/Chip8.cpp
     src/core/CPU.cpp
     src/core/Display.cpp
+    src/core/Keypad.cpp
     src/core/Memory.cpp
     src/core/Timer.cpp
     src/core/opcode/Opcode.cpp

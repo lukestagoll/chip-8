@@ -32,6 +32,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `EX9E` - Skip next instruction if key at VX is pressed
 - `EXA1` - Skip next instruction if key at VX is not pressed
 - `FX07` - Store the current value of the delay timer in register VX
+- `FX0A` - Wait for keypress
 - `FX15` - Set the delay timer to the value of register VX
 - `FX18` - Set the sound timer to the value of register VX
 - `FX1E` - Add the value of VX to I

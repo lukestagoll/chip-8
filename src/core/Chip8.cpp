@@ -40,6 +40,7 @@ int Chip8::loadROM(const char *filename)
 
 void Chip8::tick()
 {
+    if (cpu.waiting()) return;
     cpu.cycle();
 }
 

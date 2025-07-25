@@ -159,3 +159,30 @@ void CPU::addRegisterToIndex(uint8_t index)
 {
     indexRegister += V[index];
 }
+
+void CPU::waitForKeyPress(uint8_t index)
+{
+    waitingForKeyPress = true;
+    uint8_t key = keypad.any();
+    if (key == 0xFF)
+    {
+        // need to rerun the operation.
+        programCounter -= 2;
+        return;
+    }
+
+    V[index] = key;
+    waitingForKeyPress = false;
+    waitingForKeyRelease = key;
+}
+
+bool CPU::waiting()
+{
+    if (waitingForKeyRelease != 0xFF)
+    {
+        bool pressed = keypad.isPressed(waitingForKeyRelease);
+        if (pressed) return true;
+        waitingForKeyRelease = 0xFF;
+    }
+    return false;
+}

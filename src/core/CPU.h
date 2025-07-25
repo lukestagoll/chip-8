@@ -187,6 +187,8 @@ public:
 
     // --- Keypad ---
     bool isKeyPressed(uint8_t index) { return keypad.isPressed(V[index]); }
+    void waitForKeyPress(uint8_t index);
+    bool waiting();
 
 private:
     Memory &memory;
@@ -203,4 +205,7 @@ private:
     // Subroutine Stack
     std::array<uint16_t, STACK_DEPTH> stack{};
     uint8_t stackPointer = 0;
+
+    bool waitingForKeyPress = false;
+    uint8_t waitingForKeyRelease = 0xFF;
 };

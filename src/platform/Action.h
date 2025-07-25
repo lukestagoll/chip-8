@@ -2,7 +2,7 @@
 
 enum class Action
 {
-    NONE = -1,
+    NONE = 0xFF,
     KEYPAD_0 = 0x0,
     KEYPAD_1 = 0x1,
     KEYPAD_2 = 0x2,

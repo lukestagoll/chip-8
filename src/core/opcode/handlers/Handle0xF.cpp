@@ -13,8 +13,8 @@ void Opcode::handle0xF(uint16_t opcode, CPU &cpu)
         cpu.storeDelay(x);
         break;
     case 0x000A:
-        // TODO: Wait for a keypress and store the result in register VX
-        throw std::runtime_error("Unimplemented opcode (0xFX0A): " + std::to_string(opcode));
+        cpu.waitForKeyPress(x);
+        break;
     case 0x0015:
         cpu.setDelayTimer(x);
         break;
