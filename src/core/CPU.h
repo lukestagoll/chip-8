@@ -4,6 +4,7 @@
 #include "Keypad.h"
 #include "Memory.h"
 #include "Timer.h"
+#include "CPUStatus.h"
 
 #include <array>
 #include <cstdint>
@@ -28,7 +29,7 @@ public:
      *
      * @throws std::runtime_error if program counter exceeds memory bounds
      */
-    void cycle();
+    CPUStatus cycle();
 
     /**
      * Calls a subroutine at the specified address.
@@ -37,7 +38,7 @@ public:
      * @param address The memory address to jump to
      * @throws std::overflow_error if the call stack is full (16 levels deep)
      */
-    void callSubroutine(uint16_t address);
+    CPUStatus callSubroutine(uint16_t address);
 
     /**
      * Returns from a subroutine by restoring the program counter from the stack.
@@ -45,15 +46,15 @@ public:
      *
      * @throws std::underflow_error if attempting to return when stack is empty
      */
-    void exitSubroutine();
-    void skipNextInstruction() { programCounter += 2; }
-    void jump(uint16_t address) { programCounter = address; }
-    void jumpV(uint16_t address) { programCounter = address + V[0]; }
+    CPUStatus exitSubroutine();
+    CPUStatus skipNextInstruction() { programCounter += 2; return CPUStatus::OK; }
+    CPUStatus jump(uint16_t address) { programCounter = address; return CPUStatus::OK; }
+    CPUStatus jumpV(uint16_t address) { programCounter = address + V[0]; return CPUStatus::OK; }
 
     // --- Display Operations ---
-    void clearDrawFlag() { display.clearDrawFlag(); }
     bool getDrawFlag() const { return display.getDrawFlag(); }
-    void clearDisplay() { display.clear(); }
+    CPUStatus clearDrawFlag() { display.clearDrawFlag(); return CPUStatus::OK; }
+    CPUStatus clearDisplay() { display.clear(); return CPUStatus::OK; }
 
     /**
      * Draws a sprite at the specified screen coordinates.
@@ -68,11 +69,11 @@ public:
      * - 1 if any pixels were erased (collision detected)
      * - 0 if no pixels were erased
      */
-    void drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
+    CPUStatus drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
     
     // --- General-purpose Register Access ---
     uint8_t getV(uint8_t index) const { return V[index]; }
-    void setV(uint8_t index, uint8_t value) { V[index] = value; }
+    CPUStatus setV(uint8_t index, uint8_t value) { V[index] = value; return CPUStatus::OK; }
 
     /**
      * Stores the value of the second register in the first register
@@ -81,13 +82,13 @@ public:
      * @param x Target register index (result stored here)
      * @param y Source register index to copy
      */
-    void copyRegister(uint8_t x, uint8_t y) { V[x] = V[y]; }
-    void setVF(uint8_t value) { V[VF] = value; }
-    void setIndexRegister(uint16_t addr) { indexRegister = addr; }
-    void setIndexRegisterFromV(uint16_t index) { indexRegister = 0x050 + (V[index] * 5); }
+    CPUStatus copyRegister(uint8_t x, uint8_t y) { V[x] = V[y]; return CPUStatus::OK; }
+    CPUStatus setVF(uint8_t value) { V[VF] = value; return CPUStatus::OK; }
+    CPUStatus setIndexRegister(uint16_t addr) { indexRegister = addr; return CPUStatus::OK; }
+    CPUStatus setIndexRegisterFromV(uint16_t index) { indexRegister = 0x050 + (V[index] * 5); return CPUStatus::OK; }
 
     // --- Arithmetic and Logic Instructions ---
-    void addImmediate(uint8_t index, uint8_t value) { V[index] += value; }
+    CPUStatus addImmediate(uint8_t index, uint8_t value) { V[index] += value; return CPUStatus::OK; }
 
     /**
      * Adds the values of two registers and stores the result in the first register.
@@ -102,7 +103,7 @@ public:
      * - 1 if addition overflows (sum > 255)
      * - 0 if no overflow occurs
      */
-    void addRegisters(uint8_t x, uint8_t y);
+    CPUStatus addRegisters(uint8_t x, uint8_t y);
 
     /**
      * Subtracts register Y from register X and stores the result in register X.
@@ -117,29 +118,29 @@ public:
      * - 1 if no borrow (VX >= VY)
      * - 0 if borrow occurred (VX < VY)
      */
-    void subtractRegisters(uint8_t x, uint8_t y);
+    CPUStatus subtractRegisters(uint8_t x, uint8_t y);
 
-    /**
-     * Subtracts register X from register Y and stores the result in register X.
-     * This is the reverse of subtractRegisters.
-     * 
-     * VX = VY - VX
-     *
-     * @param x Target register index (result stored here)
-     * @param y Source register index (minuend)
-     *
-     * Sets VF register:
-     * - 1 if no borrow (VY >= VX)
-     * - 0 if borrow occurred (VY < VX)
-     */
-    void subtractReversed(uint8_t x, uint8_t y);
+     /**
+      * Subtracts register X from register Y and stores the result in register X.
+      * This is the reverse of subtractRegisters.
+      *
+      * VX = VY - VX
+      *
+      * @param x Target register index (result stored here)
+      * @param y Source register index (minuend)
+      *
+      * Sets VF register:
+      * - 1 if no borrow (VY >= VX)
+      * - 0 if borrow occurred (VY < VX)
+      */
+    CPUStatus subtractReversed(uint8_t x, uint8_t y);
 
-    void shiftRight(uint8_t index);
-    void shiftLeft(uint8_t index);
+    CPUStatus shiftRight(uint8_t index);
+    CPUStatus shiftLeft(uint8_t index);
 
-    void bitwiseOR(uint8_t x, uint8_t y) { V[x] |= V[y]; }
-    void bitwiseXOR(uint8_t x, uint8_t y) { V[x] ^= V[y]; }
-    void bitwiseAND(uint8_t x, uint8_t y) { V[x] &= V[y]; }
+    CPUStatus bitwiseOR(uint8_t x, uint8_t y) { V[x] |= V[y]; return CPUStatus::OK; }
+    CPUStatus bitwiseXOR(uint8_t x, uint8_t y) { V[x] ^= V[y]; return CPUStatus::OK; }
+    CPUStatus bitwiseAND(uint8_t x, uint8_t y) { V[x] &= V[y]; return CPUStatus::OK; }
 
     // --- Comparison ---
     bool equalsRegisters(uint8_t x, uint8_t y) const;
@@ -154,7 +155,7 @@ public:
      *
      * @param index The highest register index to load (inclusive).
      */
-    void loadRegistersFromMemory(uint8_t index);
+    CPUStatus loadRegistersFromMemory(uint8_t index);
 
     /**
      * Stores values from registers V0 through VX (inclusive) into memory starting from the address stored in the index register.
@@ -163,7 +164,7 @@ public:
      *
      * @param index The highest register index to save (inclusive).
      */
-    void saveRegistersToMemory(uint8_t index);
+    CPUStatus saveRegistersToMemory(uint8_t index);
 
     /**
      * Store the binary encoded decimal (BCD) at VX in memory at I, I + 1, I + 2.
@@ -172,7 +173,7 @@ public:
      *
      * @param index The index of the register to encode.
      */
-    void writeBCDToMemory(uint8_t index);
+    CPUStatus writeBCDToMemory(uint8_t index);
 
     /**
      * Add the value of the register at VX to I.
@@ -181,19 +182,22 @@ public:
      *
      * @param index The index of the register to add.
      */
-    void addRegisterToIndex(uint8_t index);
+    CPUStatus addRegisterToIndex(uint8_t index);
 
     // --- Timer Operations ---
-    void storeDelay(uint8_t index) { V[index] = delayTimer.get(); }
-    void setDelayTimer(uint8_t index) { delayTimer.set(V[index]); }
-    void setSoundTimer(uint8_t index) { soundTimer.set(V[index]); }
+    CPUStatus storeDelay(uint8_t index) { V[index] = delayTimer.get(); return CPUStatus::OK; }
+    CPUStatus setDelayTimer(uint8_t index) { delayTimer.set(V[index]); return CPUStatus::OK; }
+    CPUStatus setSoundTimer(uint8_t index) { soundTimer.set(V[index]); return CPUStatus::OK; }
 
     // --- Keypad ---
     bool isKeyPressed(uint8_t index) { return keypad.isPressed(V[index]); }
-    void waitForKeyPress(uint8_t index);
+    CPUStatus waitForKeyPress(uint8_t index);
     bool waiting();
 
-    void random(uint8_t x, uint8_t nn) { V[x] = (rand() % 256) & nn; }
+    CPUStatus random(uint8_t x, uint8_t nn) { V[x] = (rand() % 256) & nn; return CPUStatus::OK; }
+
+    // --- Error Handling ---
+    CPUStatus unknownOperation(uint8_t opcode);
 
 private:
     Memory &memory;

@@ -1,49 +1,55 @@
 #include "CPU.h"
 #include "Memory.h"
 #include "Opcode.h"
-#include <stdexcept>
+#include <ios>
+#include <iostream>
 
 CPU::CPU(Memory &mem, Display &disp, Timer &delay, Timer &sound, Keypad &keypad)
     : memory(mem), display(disp), delayTimer(delay), soundTimer(sound), keypad(keypad) {}
 
 // --- Program Control / Flow Execution ---
 
-void CPU::cycle()
+CPUStatus CPU::cycle()
 {
     if (programCounter >= Memory::MEMORY_LIMIT)
     {
-        throw std::runtime_error("Error: program counter out of bounds");
+        std::cerr << "Error: program counter out of bounds - 0x" << std::hex << programCounter - 2 << std::endl;
+        return CPUStatus::ERROR_PROGRAM_COUNTER_OUT_OF_BOUNDS;
     }
 
     // Combine two 8-bit values into a single 16-bit opcode
     uint16_t opcode = memory.read(programCounter) << 8 | memory.read(programCounter + 1);
     programCounter += 2;
 
-    Opcode::execute(opcode, *this);
+    return Opcode::execute(opcode, *this);
 }
 
-void CPU::callSubroutine(uint16_t address)
+CPUStatus CPU::callSubroutine(uint16_t address)
 {
 
     if (stackPointer >= 16)
     {
-        throw std::overflow_error("Stack limit reached");
+        std::cerr << "Error: stack overflow" << std::endl;
+        return CPUStatus::ERROR_STACK_OVERFLOW;
     }
     stack[stackPointer++] = programCounter;
 
     programCounter = address;
+    return CPUStatus::OK;
 }
 
-void CPU::exitSubroutine()
+CPUStatus CPU::exitSubroutine()
 {
     if (stackPointer == 0)
     {
-        throw std::underflow_error("Stack empty");
+        std::cerr << "Error: stack empty" << std::endl;
+        return CPUStatus::ERROR_STACK_EMPTY;
     }
     programCounter = stack[--stackPointer];
+    return CPUStatus::OK;
 }
 
-void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
+CPUStatus CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
 {
     // wrap the coordinates - since display width & height are powers of 2, can use bitwise `AND` rather than modulo.
     uint8_t x = V[vx] & (display.WIDTH - 1);
@@ -75,45 +81,51 @@ void CPU::drawSprite(uint8_t vx, uint8_t vy, uint8_t n)
     }
 
     V[0xF] = collision ? 1 : 0;
+    return CPUStatus::OK;
 }
 
 // --- Arithmetic and Logic Instructions ---
 
-void CPU::addRegisters(uint8_t x, uint8_t y)
+CPUStatus CPU::addRegisters(uint8_t x, uint8_t y)
 {
     uint16_t sum = V[x] + V[y];
     uint8_t vf = sum > 0xFF ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(sum);
     V[VF] = vf;
+    return CPUStatus::OK;
 }
 
-void CPU::subtractRegisters(uint8_t x, uint8_t y)
+CPUStatus CPU::subtractRegisters(uint8_t x, uint8_t y)
 {
     uint16_t result = V[x] - V[y];
     uint8_t vf = V[x] >= V[y] ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(result);
     V[VF] = vf;
+    return CPUStatus::OK;
 }
 
-void CPU::subtractReversed(uint8_t x, uint8_t y)
+CPUStatus CPU::subtractReversed(uint8_t x, uint8_t y)
 {
     uint16_t result = V[y] - V[x];
     uint8_t vf = V[y] >= V[x] ? 0x01 : 0x00;
     V[x] = static_cast<uint8_t>(result);
     V[VF] = vf;
+    return CPUStatus::OK;
 }
 
-void CPU::shiftRight(uint8_t index)
+CPUStatus CPU::shiftRight(uint8_t index)
 {
     uint8_t vf = V[index] & 0x1;
     V[index] >>= 1;
     V[VF] = vf;
+    return CPUStatus::OK;
 }
-void CPU::shiftLeft(uint8_t index)
+CPUStatus CPU::shiftLeft(uint8_t index)
 {
     uint8_t vf = (V[index] & 0x80) >> 7;
     V[index] <<= 1;
     V[VF] = vf;
+    return CPUStatus::OK;
 }
 
 // --- Comparison ---
@@ -131,36 +143,40 @@ bool CPU::notEqualsImmediate(uint8_t index, uint8_t value) const
 }
 
 // --- Memory Operations ---
-void CPU::loadRegistersFromMemory(uint8_t index)
+CPUStatus CPU::loadRegistersFromMemory(uint8_t index)
 {
     for (uint8_t i = 0; i <= index; i++)
     {
         V[i] = memory.read(indexRegister + i);
     }
+    return CPUStatus::OK;
 }
 
-void CPU::saveRegistersToMemory(uint8_t index)
+CPUStatus CPU::saveRegistersToMemory(uint8_t index)
 {
     for (uint8_t i = 0; i <= index; i++)
     {
         memory.write(indexRegister + i, V[i]);
     }
+    return CPUStatus::OK;
 }
 
-void CPU::writeBCDToMemory(uint8_t index)
+CPUStatus CPU::writeBCDToMemory(uint8_t index)
 {
     uint8_t value = V[index];
     memory.write(indexRegister, value / 100 % 10);
     memory.write(indexRegister + 1, value / 10 % 10);
     memory.write(indexRegister + 2, value % 10);
+    return CPUStatus::OK;
 }
 
-void CPU::addRegisterToIndex(uint8_t index)
+CPUStatus CPU::addRegisterToIndex(uint8_t index)
 {
     indexRegister += V[index];
+    return CPUStatus::OK;
 }
 
-void CPU::waitForKeyPress(uint8_t index)
+CPUStatus CPU::waitForKeyPress(uint8_t index)
 {
     waitingForKeyPress = true;
     uint8_t key = keypad.any();
@@ -168,12 +184,13 @@ void CPU::waitForKeyPress(uint8_t index)
     {
         // need to rerun the operation.
         programCounter -= 2;
-        return;
+        return CPUStatus::OK;
     }
 
     V[index] = key;
     waitingForKeyPress = false;
     waitingForKeyRelease = key;
+    return CPUStatus::OK;
 }
 
 bool CPU::waiting()
@@ -185,4 +202,11 @@ bool CPU::waiting()
         waitingForKeyRelease = 0xFF;
     }
     return false;
+}
+
+
+CPUStatus CPU::unknownOperation(uint8_t opcode)
+{
+    std::cerr << "Error: Unknown opcode 0x" << std::hex << opcode << " at address 0x" << programCounter - 2 << std::endl;
+    return CPUStatus::ERROR_UNKNOWN_OPCODE;
 }

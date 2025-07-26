@@ -1,8 +1,10 @@
 #include "Application.h"
+#include "CPU.h"
 #include "Chip8.h"
 #include "Display.h"
 
 #include <SDL3/SDL.h>
+#include <iostream>
 
 int Application::run(const char *romFile)
 {
@@ -28,7 +30,13 @@ int Application::run(const char *romFile)
 
         while (emuClock.shouldTick())
         {
-            chip8.tick();
+            CPUStatus status = chip8.tick();
+            std::cout << static_cast<int>(status) << std::endl;
+            if (status != CPUStatus::OK)
+            {
+                return exit(static_cast<int>(status));
+            }
+
             if (chip8.getDrawFlag())
             {
                 renderer.clear();
@@ -45,11 +53,7 @@ int Application::run(const char *romFile)
         chip8.updateTimers();
     }
 
-    texture.destroy();
-    renderer.destroy();
-    window.destroy();
-    SDL_Quit();
-    return 0;
+    return exit(0);
 }
 
 bool Application::initSDL()
@@ -60,4 +64,13 @@ bool Application::initSDL()
         return false;
     }
     return true;
+}
+
+int Application::exit(int status)
+{
+    texture.destroy();
+    renderer.destroy();
+    window.destroy();
+    SDL_Quit();
+    return status;
 }

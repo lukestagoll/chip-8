@@ -13,7 +13,7 @@ public:
     Chip8();
 
     int loadROM(const char *filename);
-    void tick();
+    CPUStatus tick();
 
     void clearDrawFlag() { display.clearDrawFlag(); }
     bool getDrawFlag() const { return display.getDrawFlag(); }

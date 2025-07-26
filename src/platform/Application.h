@@ -14,6 +14,7 @@ public:
     Application() { eventHandler.attachChip8(&chip8); }
     int run(const char *romFile);
     bool initSDL();
+    int exit(int status);
 
 private:
     Window window;

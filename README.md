@@ -44,8 +44,7 @@ This project aims to replicate the functionality of the original CHIP-8 interpre
 - `FX65` - Loads values of memory starting at address I into V0 to VX (inclusive). I is not modified.
 
 ### Current Limitations
-- 34 out of 35 opcodes implemented
-- Program execution stops when unimplemented opcodes are encountered
+- Program exits when unknown opcodes are encountered.
 
 ### Tested ROMs
 
@@ -55,6 +54,7 @@ The following ROM images have been tested and run successfully:
 - [CHIP-8 Test Suite: Corax+ opcode test (3-corax+.ch8)](https://github.com/Timendus/chip8-test-suite#corax-opcode-test)
 - [CHIP-8 Test Suite: Flags test (4-flags.ch8)](https://github.com/Timendus/chip8-test-suite#flags-test)
 - [CHIP-8 Test Suite: Keypad test (6-keypad.ch8)](https://github.com/Timendus/chip8-test-suite#keypad-test)
+- [CHIP-8 Test Suite: Beep test (7-beep.ch8)](https://github.com/Timendus/chip8-test-suite#beep-test)
 
 ## Specifications
 

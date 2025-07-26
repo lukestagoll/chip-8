@@ -2,10 +2,10 @@
 #include "Opcode.h"
 #include <cstdint>
 
-void Opcode::handle6XNN(uint16_t opcode, CPU &cpu)
+CPUStatus Opcode::handle6XNN(uint16_t opcode, CPU &cpu)
 {
     uint8_t index = (opcode >> 8) & 0x0F;
     uint8_t value = opcode & 0x00FF;
 
-    cpu.setV(index, value);
+    return cpu.setV(index, value);
 }

@@ -3,8 +3,8 @@
 #include <cstdint>
 
 // execute subroutine at NNN
-void Opcode::handle2NNN(uint16_t opcode, CPU &cpu)
+CPUStatus Opcode::handle2NNN(uint16_t opcode, CPU &cpu)
 {
     uint16_t address = opcode & 0x0FFF;
-    cpu.callSubroutine(address);
+    return cpu.callSubroutine(address);
 }

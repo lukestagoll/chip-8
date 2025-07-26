@@ -1,4 +1,5 @@
 #include "Chip8.h"
+#include "CPU.h"
 #include "Font.h"
 #include "Memory.h"
 #include <cstdint>
@@ -38,10 +39,10 @@ int Chip8::loadROM(const char *filename)
     return 0;
 }
 
-void Chip8::tick()
+CPUStatus Chip8::tick()
 {
-    if (cpu.waiting()) return;
-    cpu.cycle();
+    if (cpu.waiting()) return CPUStatus::OK;
+    return cpu.cycle();
 }
 
 void Chip8::loadFontSet()
