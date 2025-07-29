@@ -4,7 +4,7 @@ project(chip8-qt)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTORCC OFF)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -86,6 +86,8 @@ set(PLATFORM_HEADERS
     src/platform/Widget.h
 )
 
+qt_add_resources(RESOURCES ${CMAKE_SOURCE_DIR}/assets/resources.qrc)
+
 # Add the source files to the executable target
 add_executable(chip8-qt
     src/main.cpp
@@ -93,6 +95,7 @@ add_executable(chip8-qt
     ${CORE_SOURCES}
     ${PLATFORM_HEADERS}
     ${PLATFORM_SOURCES}
+    ${RESOURCES}
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -118,7 +121,6 @@ set_target_properties(chip8-qt PROPERTIES
 )
 
 file(COPY ${CMAKE_SOURCE_DIR}/roms DESTINATION ${CMAKE_BINARY_DIR}/bin)
-file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # Enable link time optimization for Release builds
 include(CheckIPOSupported)

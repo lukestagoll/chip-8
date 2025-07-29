@@ -1,0 +1,8 @@
+<RCC>
+    <qresource>
+        <file>icons/chip8_256x256.png</file>
+    </qresource>
+    <qresource>
+        <file>audio/beep.wav</file>
+    </qresource>
+</RCC>

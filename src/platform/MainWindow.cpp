@@ -3,7 +3,7 @@
 #include <QChronoTimer>
 
 MainWindow::MainWindow(const char *romFile, QWidget *parent)
-    : QMainWindow(parent), audioOutput_(), beep_(audioOutput_.get(), QUrl::fromLocalFile("assets/audio/beep.wav"))
+    : QMainWindow(parent), audioOutput_(), beep_(audioOutput_.get(), QUrl("assets/audio/beep.wav"))
 {
     chip8_.loadROM(romFile);
 

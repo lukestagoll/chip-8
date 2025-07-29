@@ -18,6 +18,8 @@ int main(int argc, char *argv[])
     format.setDepthBufferSize(24);
     QSurfaceFormat::setDefaultFormat(format);
 
+    app.setWindowIcon(QIcon(":/icons/chip8_256x256.png"));
+
     MainWindow window(argv[1]);
     window.show();
     return app.exec();
