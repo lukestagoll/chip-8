@@ -6,6 +6,11 @@ A personal project to create a CHIP-8 interpreter in C++ & Qt, following multipl
 
 This project aims to replicate the functionality of the original CHIP-8 interpreter. Currently in active development with basic display functionality working.
 
+## Branches
+- **qt** (default) – Current active version using Qt 6 for display, input, and audio.
+
+- **sdl** – Earlier version of the project using SDL3.
+
 ## Current Implementation Status
 ### Implemented Opcodes
 - `00E0` - Clear display
