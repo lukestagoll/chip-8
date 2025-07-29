@@ -1,6 +1,6 @@
 # CHIP-8 Emulator
 
-A personal project to create a CHIP-8 interpreter in C++ & SDL3, following multiple guides and resources. This serves as my gateway into emulator development and low-level systems programming.
+A personal project to create a CHIP-8 interpreter in C++ & Qt, following multiple guides and resources. This serves as my gateway into emulator development and low-level systems programming.
 
 ## Overview
 
@@ -84,19 +84,15 @@ The following ROM images have been tested and run successfully:
 
 ## Getting Started
 ### Prerequisites
-- **Clang Compiler**
+- **Qt 6 (with Widgets & Multimedia modules)**
+- **Clang**
 - **CMake**
 
 ### Clone the Repo
 This project uses git submodules for dependencies. Clone with:
 ```bash
-git clone --recurse-submodules https://github.com/yourusername/chip-8.git
+git clone https://github.com/lukestagoll/chip-8.git
 cd chip-8
-```
-
-If you've already cloned without submodules, initialize them:
-```bash
-git submodule update --init --recursive
 ```
 
 ### Setup ROMs Directory
