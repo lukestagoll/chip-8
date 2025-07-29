@@ -1,11 +1,5 @@
 #include "Chip8Display.h"
 
-Chip8Display::Chip8Display()
-{
-    clear();
-    drawFlag_ = false;
-}
-
 void Chip8Display::clear()
 {
     for (int i = 0; i < SIZE; ++i)

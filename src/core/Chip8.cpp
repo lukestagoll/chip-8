@@ -9,11 +9,25 @@
 Chip8::Chip8()
     : memory_(), display_(), keypad_(), delayTimer_(), soundTimer_(), cpu_(memory_, display_, delayTimer_, soundTimer_, keypad_)
 {
+    init();
+}
+
+void Chip8::init()
+{
     loadFontSet();
+    memory_.init();
+    display_.clear();
+    cpu_.init();
+    keypad_.init();
+    delayTimer_.reset();
+    soundTimer_.reset();
+    paused_ = false;
 }
 
 int Chip8::loadROM(const char *filename)
 {
+    std::string filenameString(filename);
+
     std::ifstream file(filename, std::ios::binary);
     if (!file)
     {
@@ -36,7 +50,16 @@ int Chip8::loadROM(const char *filename)
         return 1;
     }
 
+    currentROM = filenameString;
+
+    paused_ = false;
     return 0;
+}
+
+int Chip8::restart()
+{
+    if (currentROM == "") return 1;
+    return loadROM(currentROM.c_str());
 }
 
 CPUStatus Chip8::tick()

@@ -1,14 +1,15 @@
 #pragma once
 
+#include <QAction>
+#include <QLabel>
 #include <QMainWindow>
+#include <QMenu>
+#include <QMenuBar>
+#include <QStackedWidget>
 #include <QWidget>
 
-#include "AudioOutput.h"
-#include "Chip8.h"
-#include "Chip8Display.h"
-#include "EmulationClock.h"
-#include "SoundEffect.h"
-#include "Widget.h"
+#include "DefaultWidget.h"
+#include "EmulationWidget.h"
 
 class MainWindow : public QMainWindow
 {
@@ -19,15 +20,25 @@ class MainWindow : public QMainWindow
     ~MainWindow();
 
   private slots:
-    void runCycle();
+    void loadROM();
+    void startEmulation();
+    void stopEmulation();
+    void pauseEmulation();
 
   private:
-    Widget *widget_ = nullptr;
+    DefaultWidget *defaultWidget_ = nullptr;
+    EmulationWidget *emulationWidget_ = nullptr;
+    QStackedWidget *stackedWidget_ = nullptr;
 
-    AudioOutput audioOutput_;
-    SoundEffect beep_;
+    void createActions();
+    void createMenus();
 
-    Chip8 chip8_;
-    Chip8Display *display_ = nullptr;
-    EmulationClock emuClock_;
+    QMenu *fileMenu_;
+    QMenu *emulationMenu_;
+    QAction *loadROMAction_;
+    QAction *exitAction_;
+    QAction *startEmulationAction_;
+    QAction *pauseEmulationAction_;
+    QAction *stopEmulationAction_;
+    QLabel *infoLabel_;
 };

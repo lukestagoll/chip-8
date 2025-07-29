@@ -72,7 +72,8 @@ set(PLATFORM_SOURCES
     src/platform/Keymap.cpp
     src/platform/MainWindow.cpp
     src/platform/SoundEffect.cpp
-    src/platform/Widget.cpp
+    src/platform/DefaultWidget.cpp
+    src/platform/EmulationWidget.cpp
 )
 
 
@@ -83,7 +84,8 @@ set(PLATFORM_HEADERS
     src/platform/Keymap.h
     src/platform/MainWindow.h
     src/platform/SoundEffect.h
-    src/platform/Widget.h
+    src/platform/DefaultWidget.h
+    src/platform/EmulationWidget.h
 )
 
 qt_add_resources(RESOURCES ${CMAKE_SOURCE_DIR}/assets/resources.qrc)

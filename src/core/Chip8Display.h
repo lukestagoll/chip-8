@@ -9,8 +9,6 @@ public:
     static constexpr int HEIGHT = 32;
     static constexpr int SIZE = WIDTH * HEIGHT;
 
-    Chip8Display();
-
     void clear();
     uint8_t flipPixel(uint8_t x, uint8_t y);
     const uint8_t *getBuffer() const { return buffer_; };

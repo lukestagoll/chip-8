@@ -199,7 +199,9 @@ public:
     // --- Error Handling ---
     CPUStatus unknownOperation(uint8_t opcode);
 
-private:
+    void init();
+
+  private:
     Memory &memory_;
     Chip8Display &display_;
     Timer &delayTimer_;

@@ -11,3 +11,11 @@ uint8_t Keypad::any()
     }
     return 0xFF;
 }
+
+void Keypad::init()
+{
+    for (int i = 0; i < 16; i++)
+    {
+        keys_[i] = 0;
+    }
+}

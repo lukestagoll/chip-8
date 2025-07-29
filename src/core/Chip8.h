@@ -7,9 +7,11 @@
 #include "Timer.h"
 
 #include <cstdint>
+#include <string>
 
-class Chip8 {
-public:
+class Chip8
+{
+  public:
     Chip8();
 
     int loadROM(const char *filename);
@@ -24,8 +26,12 @@ public:
 
     void keydown(Action key);
     void keyup(Action key);
+    void init();
+    int restart();
+    void pause() { paused_ = true; }
+    bool isPaused() { return paused_; }
 
-private:
+  private:
     CPU cpu_;
     Memory memory_;
     Chip8Display display_;
@@ -34,4 +40,7 @@ private:
     Keypad keypad_;
 
     void loadFontSet();
+
+    std::string currentROM = "";
+    bool paused_ = false;
 };

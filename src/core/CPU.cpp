@@ -27,7 +27,7 @@ CPUStatus CPU::cycle()
 CPUStatus CPU::callSubroutine(uint16_t address)
 {
 
-    if (stackPointer_ >= 16)
+    if (stackPointer_ >= STACK_DEPTH)
     {
         std::cerr << "Error: stack overflow" << std::endl;
         return CPUStatus::ERROR_STACK_OVERFLOW;
@@ -209,4 +209,22 @@ CPUStatus CPU::unknownOperation(uint8_t opcode)
 {
     std::cerr << "Error: Unknown opcode 0x" << std::hex << opcode << " at address 0x" << programCounter_ - 2 << std::endl;
     return CPUStatus::ERROR_UNKNOWN_OPCODE;
+}
+
+void CPU::init()
+{
+    for (int i = 0; i < NUM_REGISTERS; i++)
+    {
+        V_[i] = 0;
+    }
+    for (int i = 0; i < STACK_DEPTH; i++)
+    {
+        stack_[i] = 0;
+    }
+
+    stackPointer_ = 0;
+    indexRegister_ = 0;
+    programCounter_ = PROGRAM_START_ADDRESS;
+    waitingForKeyPress_ = false;
+    waitingForKeyRelease_ = 0xFF;
 }
