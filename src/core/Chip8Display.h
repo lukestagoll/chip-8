@@ -2,14 +2,14 @@
 
 #include <cstdint>
 
-class Display
+class Chip8Display
 {
 public:
     static constexpr int WIDTH = 64;
     static constexpr int HEIGHT = 32;
     static constexpr int SIZE = WIDTH * HEIGHT;
 
-    Display();
+    Chip8Display();
 
     void clear();
     uint8_t flipPixel(uint8_t x, uint8_t y);

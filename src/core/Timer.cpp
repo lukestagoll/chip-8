@@ -2,27 +2,28 @@
 
 void Timer::update()
 {
-    if (value == 0) return;
+    if (ticksRemaining_ == 0) return;
+    qint64 current = clock_.nsecsElapsed();
+    deltaTime_ = (current - lastTimeNs_) / nanoToSec_;
+    lastTimeNs_ = current;
 
-    Uint64 current = SDL_GetPerformanceCounter();
-    delta = (current - previous) / static_cast<double>(frequency);
-    previous = current;
+    accumulatedTime_ += deltaTime_;
 
-    accumulator += delta;
-
-    while (accumulator >= tickInterval && value > 0)
+    while (accumulatedTime_ >= tickInterval_ && ticksRemaining_ > 0)
     {
-        value--;
-
-        accumulator -= tickInterval;
+        ticksRemaining_--;
+        accumulatedTime_ -= tickInterval_;
     }
 }
 
-void Timer::set(uint8_t v)
+void Timer::set(uint8_t tickCount)
 {
-    if (v > 0 && value == 0) {
-        accumulator = 0;
-        previous = SDL_GetPerformanceCounter();
-    }
-    value = v;
+    if (tickCount > 0 && ticksRemaining_ == 0) reset();
+    ticksRemaining_ = tickCount;
+};
+
+void Timer::reset()
+{
+    accumulatedTime_ = 0;
+    lastTimeNs_ = clock_.nsecsElapsed();
 };

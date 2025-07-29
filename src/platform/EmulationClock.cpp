@@ -2,26 +2,26 @@
 
 void EmulationClock::update()
 {
-    Uint64 current = SDL_GetPerformanceCounter();
-    delta = (current - previous) / static_cast<double>(frequency);
-    previous = current;
+    qint64 current = clock_.nsecsElapsed();
+    deltaTime_ = (current - lastTimeNs_) / nanoToSec_;
+    lastTimeNs_ = current;
 
-    accumulator += delta;
+    accumulatedTime_ += deltaTime_;
 }
 
 bool EmulationClock::shouldTick() const
 {
-    return accumulator >= tickInterval;
+    return accumulatedTime_ >= tickInterval_;
 }
 
 void EmulationClock::consumeTick()
 {
-    accumulator -= tickInterval;
+    accumulatedTime_ -= tickInterval_;
 }
 
-void EmulationClock::updateClockRate(int rate)
+void EmulationClock::updateTickRate(int ticksPerSecond)
 {
-    if (rate <= 0) return;
-    clockRate = rate;
-    tickInterval = 1.0 / clockRate;
+    if (ticksPerSecond <= 0) return;
+    ticksPerSecond_ = ticksPerSecond;
+    tickInterval_ = 1.0 / ticksPerSecond_;
 }

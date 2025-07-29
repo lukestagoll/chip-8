@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Display.h"
+#include "Chip8Display.h"
 #include "Keypad.h"
 #include "Memory.h"
 #include "Timer.h"
@@ -17,7 +17,7 @@ public:
     static constexpr std::size_t STACK_DEPTH = 16;
     static constexpr uint8_t VF = 0xF;
 
-    CPU(Memory &memory, Display &display, Timer &delayTimer, Timer &soundTimer, Keypad &keypad);
+    CPU(Memory &memory, Chip8Display &display, Timer &delayTimer, Timer &soundTimer, Keypad &keypad);
 
     // --- Program Control / Flow Execution ---
 
@@ -201,7 +201,7 @@ public:
 
 private:
     Memory &memory;
-    Display &display;
+    Chip8Display &display;
     Timer &delayTimer;
     Timer &soundTimer;
     Keypad &keypad;

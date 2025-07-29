@@ -1,12 +1,12 @@
-#include "Display.h"
+#include "Chip8Display.h"
 
-Display::Display()
+Chip8Display::Chip8Display()
 {
     clear();
     drawFlag = false;
 }
 
-void Display::clear()
+void Chip8Display::clear()
 {
     for (int i = 0; i < SIZE; ++i)
     {
@@ -16,7 +16,7 @@ void Display::clear()
 }
 
 // returns true if collision
-uint8_t Display::flipPixel(uint8_t x, uint8_t y)
+uint8_t Chip8Display::flipPixel(uint8_t x, uint8_t y)
 {
     uint16_t idx = x + y * WIDTH;
     bool wasSet = buffer[idx] == 1;

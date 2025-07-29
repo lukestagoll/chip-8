@@ -1,21 +1,21 @@
 #pragma once
-#include <SDL3/SDL.h>
+#include <QElapsedTimer>
 
 class Timer
 {
 public:
     void update();
-    void set(uint8_t v);
-    uint8_t get() const { return value; };
+    void set(uint8_t tickCount_);
+    uint8_t get() const { return ticksRemaining_; };
+    void reset();
 
 private:
-    const Uint64 frequency = SDL_GetPerformanceFrequency();
-    int rate = 60;
-    double tickInterval = 1.0 / rate;
-
-    uint8_t value = 0;
-
-    Uint64 previous = SDL_GetPerformanceCounter();
-    double accumulator = 0.0;
-    double delta = 0.0;
+    QElapsedTimer clock_;
+    uint8_t ticksRemaining_ = 0;
+    qint64 lastTimeNs_ = 0;
+    int ticksPerSecond_ = 60;
+    double tickInterval_ = 1.0 / ticksPerSecond_;
+    double accumulatedTime_ = 0.0;
+    double deltaTime_ = 0.0;
+    static constexpr double nanoToSec_ = 1e9;
 };

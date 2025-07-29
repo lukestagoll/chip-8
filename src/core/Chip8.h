@@ -1,7 +1,7 @@
 #pragma once
 #include "Action.h"
 #include "CPU.h"
-#include "Display.h"
+#include "Chip8Display.h"
 #include "Keypad.h"
 #include "Memory.h"
 #include "Timer.h"
@@ -28,7 +28,7 @@ public:
 private:
     CPU cpu;
     Memory memory;
-    Display display;
+    Chip8Display display;
     Timer delayTimer;
     Timer soundTimer;
     Keypad keypad;

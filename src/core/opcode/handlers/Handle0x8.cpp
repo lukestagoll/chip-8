@@ -1,7 +1,6 @@
 #include "CPU.h"
 #include "Opcode.h"
 #include <cstdint>
-#include <stdexcept>
 
 CPUStatus Opcode::handle0x8(uint16_t opcode, CPU &cpu)
 {

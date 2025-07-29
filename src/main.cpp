@@ -1,4 +1,7 @@
-#include "Application.h"
+// #include "Application.h"
+#include "MainWindow.h"
+#include <QApplication>
+#include <QSurfaceFormat>
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -9,8 +12,13 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    const char *romFile = argv[1];
+    QApplication app(argc, argv);
 
-    Application app;
-    return app.run(romFile);
+    QSurfaceFormat format;
+    format.setDepthBufferSize(24);
+    QSurfaceFormat::setDefaultFormat(format);
+
+    MainWindow window(argv[1]);
+    window.show();
+    return app.exec();
 }

@@ -1,22 +1,23 @@
 #pragma once
-
-#include <SDL3/SDL.h>
+#include <QElapsedTimer>
 
 class EmulationClock
 {
-public:
+  public:
+    EmulationClock() { clock_.start(); }
     void update();
     bool shouldTick() const;
     void consumeTick();
 
-    void updateClockRate(int rate);
+    void updateTickRate(int ticksPerSecond);
 
-private:
-    const Uint64 frequency = SDL_GetPerformanceFrequency();
-    int clockRate = 800;
-    double tickInterval = 1.0 / clockRate;
+  private:
+    QElapsedTimer clock_;
+    qint64 lastTimeNs_ = 0;
 
-    Uint64 previous = SDL_GetPerformanceCounter();
-    double accumulator = 0.0;
-    double delta = 0.0;
+    int ticksPerSecond_ = 800;
+    double tickInterval_ = 1.0 / ticksPerSecond_;
+    double accumulatedTime_ = 0.0;
+    double deltaTime_ = 0.0;
+    static constexpr double nanoToSec_ = 1e9;
 };

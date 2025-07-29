@@ -4,7 +4,7 @@
 #include <ios>
 #include <iostream>
 
-CPU::CPU(Memory &mem, Display &disp, Timer &delay, Timer &sound, Keypad &keypad)
+CPU::CPU(Memory &mem, Chip8Display &disp, Timer &delay, Timer &sound, Keypad &keypad)
     : memory(mem), display(disp), delayTimer(delay), soundTimer(sound), keypad(keypad) {}
 
 // --- Program Control / Flow Execution ---

@@ -1,10 +1,15 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(chip8)
+project(chip8-qt)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Multimedia)
 
 find_program(CCACHE_PROGRAM ccache)
 if(CCACHE_PROGRAM)
@@ -24,12 +29,22 @@ if(NOT N EQUAL 0)
   set(CMAKE_BUILD_PARALLEL_LEVEL ${N})
 endif()
 
-add_subdirectory(external/SDL)
+set(CORE_HEADERS
+    src/core/Chip8.h
+    src/core/CPU.h
+    src/core/CPUStatus.h
+    src/core/Chip8Display.h
+    src/core/Font.h
+    src/core/Keypad.h
+    src/core/Memory.h
+    src/core/Timer.h
+    src/core/opcode/Opcode.h
+)
 
 set(CORE_SOURCES
     src/core/Chip8.cpp
     src/core/CPU.cpp
-    src/core/Display.cpp
+    src/core/Chip8Display.cpp
     src/core/Keypad.cpp
     src/core/Memory.cpp
     src/core/Timer.cpp
@@ -53,51 +68,61 @@ set(CORE_SOURCES
 )
 
 set(PLATFORM_SOURCES
-    src/platform/Application.cpp
-    src/platform/Audio.cpp
     src/platform/EmulationClock.cpp
-    src/platform/EventHandler.cpp
     src/platform/Keymap.cpp
-    src/platform/Renderer.cpp
-    src/platform/Texture.cpp
-    src/platform/Window.cpp
+    src/platform/MainWindow.cpp
+    src/platform/SoundEffect.cpp
+    src/platform/Widget.cpp
+)
+
+
+set(PLATFORM_HEADERS
+    src/platform/Action.h
+    src/platform/AudioOutput.h
+    src/platform/EmulationClock.h
+    src/platform/Keymap.h
+    src/platform/MainWindow.h
+    src/platform/SoundEffect.h
+    src/platform/Widget.h
 )
 
 # Add the source files to the executable target
-add_executable(chip8
+add_executable(chip8-qt
     src/main.cpp
+    ${CORE_HEADERS}
     ${CORE_SOURCES}
+    ${PLATFORM_HEADERS}
     ${PLATFORM_SOURCES}
 )
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    target_compile_options(chip8 PRIVATE
+    target_compile_options(chip8-qt PRIVATE
         $<$<CONFIG:Release>:-O2 -march=native>
     )
 endif()
 
 
 # Add the include directories for the target
-target_include_directories(chip8 PRIVATE
-    external/SDL/include
+target_include_directories(chip8-qt PRIVATE
     src/core
     src/core/opcode
     src/platform
 )
 
-target_link_libraries(chip8 PRIVATE SDL3)
+target_link_libraries(chip8-qt PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Multimedia)
 
 # Set the output directory for the executable
-set_target_properties(chip8 PROPERTIES
+set_target_properties(chip8-qt PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    OUTPUT_NAME "chip8"
+    OUTPUT_NAME "chip8-qt"
 )
 
-file(COPY ${CMAKE_SOURCE_DIR}/roms DESTINATION ${CMAKE_BINARY_DIR}/bin )
+file(COPY ${CMAKE_SOURCE_DIR}/roms DESTINATION ${CMAKE_BINARY_DIR}/bin)
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR}/bin)
 
 # Enable link time optimization for Release builds
 include(CheckIPOSupported)
 check_ipo_supported(RESULT ipo_supported OUTPUT ipo_error)
 if(ipo_supported)
-  set_property(TARGET chip8 PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+  set_property(TARGET chip8-qt PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
 endif()

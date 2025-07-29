@@ -1,12 +1,13 @@
 #include "Keymap.h"
 #include <stdexcept>
 
-Action Keymap::getKey(SDL_Scancode scancode)
+Action Keymap::getKey(int key)
 {
-    try {
-        return keybinds.at(scancode);
+    try
+    {
+        return keybinds_.at(key);
     }
-    catch (const std::out_of_range&)
+    catch (const std::out_of_range &)
     {
         return Action::NONE;
     }
