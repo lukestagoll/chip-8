@@ -13,11 +13,11 @@ public:
 
     void clear();
     uint8_t flipPixel(uint8_t x, uint8_t y);
-    const uint8_t *getBuffer() const { return buffer; };
-    bool getDrawFlag() const { return drawFlag; }
-    void clearDrawFlag() { drawFlag = false; }
+    const uint8_t *getBuffer() const { return buffer_; };
+    bool getDrawFlag() const { return drawFlag_; }
+    void clearDrawFlag() { drawFlag_ = false; }
 
-private:
-    uint8_t buffer[SIZE];
-    bool drawFlag = false;
+  private:
+    uint8_t buffer_[SIZE];
+    bool drawFlag_ = false;
 };

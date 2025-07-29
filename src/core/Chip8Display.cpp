@@ -3,25 +3,25 @@
 Chip8Display::Chip8Display()
 {
     clear();
-    drawFlag = false;
+    drawFlag_ = false;
 }
 
 void Chip8Display::clear()
 {
     for (int i = 0; i < SIZE; ++i)
     {
-        buffer[i] = 0;
+        buffer_[i] = 0;
     }
-    drawFlag = true;
+    drawFlag_ = true;
 }
 
 // returns true if collision
 uint8_t Chip8Display::flipPixel(uint8_t x, uint8_t y)
 {
     uint16_t idx = x + y * WIDTH;
-    bool wasSet = buffer[idx] == 1;
-    buffer[idx] ^= 1;
-    drawFlag = true;
+    bool wasSet = buffer_[idx] == 1;
+    buffer_[idx] ^= 1;
+    drawFlag_ = true;
 
-    return wasSet && buffer[idx] == 0;
+    return wasSet && buffer_[idx] == 0;
 }

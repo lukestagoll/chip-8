@@ -15,9 +15,9 @@ public:
     int loadROM(const char *filename);
     CPUStatus tick();
 
-    void clearDrawFlag() { display.clearDrawFlag(); }
-    bool getDrawFlag() const { return display.getDrawFlag(); }
-    const uint8_t *getDisplayBuffer() const { return display.getBuffer(); }
+    void clearDrawFlag() { display_.clearDrawFlag(); }
+    bool getDrawFlag() const { return display_.getDrawFlag(); }
+    const uint8_t *getDisplayBuffer() const { return display_.getBuffer(); }
 
     void updateTimers();
     bool playingAudio();
@@ -26,12 +26,12 @@ public:
     void keyup(Action key);
 
 private:
-    CPU cpu;
-    Memory memory;
-    Chip8Display display;
-    Timer delayTimer;
-    Timer soundTimer;
-    Keypad keypad;
+    CPU cpu_;
+    Memory memory_;
+    Chip8Display display_;
+    Timer delayTimer_;
+    Timer soundTimer_;
+    Keypad keypad_;
 
     void loadFontSet();
 };

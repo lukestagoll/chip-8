@@ -7,7 +7,7 @@
 #include <iostream>
 
 Chip8::Chip8()
-    : memory(), display(), keypad(), delayTimer(), soundTimer(), cpu(memory, display, delayTimer, soundTimer, keypad)
+    : memory_(), display_(), keypad_(), delayTimer_(), soundTimer_(), cpu_(memory_, display_, delayTimer_, soundTimer_, keypad_)
 {
     loadFontSet();
 }
@@ -26,7 +26,7 @@ int Chip8::loadROM(const char *filename)
     {
         char byte;
         file.read(&byte, 1);
-        memory.write(index, static_cast<uint8_t>(byte));
+        memory_.write(index, static_cast<uint8_t>(byte));
         index++;
     }
 
@@ -41,35 +41,35 @@ int Chip8::loadROM(const char *filename)
 
 CPUStatus Chip8::tick()
 {
-    if (cpu.waiting()) return CPUStatus::OK;
-    return cpu.cycle();
+    if (cpu_.waiting()) return CPUStatus::OK;
+    return cpu_.cycle();
 }
 
 void Chip8::loadFontSet()
 {
     for (int i = 0; i < 80; ++i)
     {
-        memory.safeWrite(0x050 + i, systemFont[i]);
+        memory_.safeWrite(0x050 + i, systemFont[i]);
     }
 }
 
 void Chip8::updateTimers()
 {
-    delayTimer.update();
-    soundTimer.update();
+    delayTimer_.update();
+    soundTimer_.update();
 }
 
 bool Chip8::playingAudio()
 {
-    return soundTimer.get() > 0;
+    return soundTimer_.get() > 0;
 }
 
 void Chip8::keydown(Action key)
 {
-    keypad.down(key);
+    keypad_.down(key);
 }
 
 void Chip8::keyup(Action key)
 {
-    keypad.up(key);
+    keypad_.up(key);
 }

@@ -8,12 +8,12 @@ Memory::Memory()
 
 uint8_t Memory::read(uint16_t address) const
 {
-    return memory[address];
+    return memory_[address];
 }
 
 void Memory::write(uint16_t address, uint8_t value)
 {
-    memory[address] = value;
+    memory_[address] = value;
 }
 
 uint8_t Memory::safeRead(uint16_t address) const
@@ -22,7 +22,7 @@ uint8_t Memory::safeRead(uint16_t address) const
     {
         throw std::out_of_range("Invalid memory read");
     }
-    return memory[address];
+    return memory_[address];
 }
 
 void Memory::safeWrite(uint16_t address, uint8_t value)
@@ -31,13 +31,13 @@ void Memory::safeWrite(uint16_t address, uint8_t value)
     {
         throw std::out_of_range("Invalid memory write");
     }
-    memory[address] = value;
+    memory_[address] = value;
 }
 
 void Memory::clear()
 {
     for (int i = 0; i < 4096; ++i)
     {
-        memory[i] = 0;
+        memory_[i] = 0;
     }
 }

@@ -47,14 +47,14 @@ public:
      * @throws std::underflow_error if attempting to return when stack is empty
      */
     CPUStatus exitSubroutine();
-    CPUStatus skipNextInstruction() { programCounter += 2; return CPUStatus::OK; }
-    CPUStatus jump(uint16_t address) { programCounter = address; return CPUStatus::OK; }
-    CPUStatus jumpV(uint16_t address) { programCounter = address + V[0]; return CPUStatus::OK; }
+    CPUStatus skipNextInstruction() { programCounter_ += 2; return CPUStatus::OK; }
+    CPUStatus jump(uint16_t address) { programCounter_ = address; return CPUStatus::OK; }
+    CPUStatus jumpV(uint16_t address) { programCounter_ = address + V_[0]; return CPUStatus::OK; }
 
     // --- Display Operations ---
-    bool getDrawFlag() const { return display.getDrawFlag(); }
-    CPUStatus clearDrawFlag() { display.clearDrawFlag(); return CPUStatus::OK; }
-    CPUStatus clearDisplay() { display.clear(); return CPUStatus::OK; }
+    bool getDrawFlag() const { return display_.getDrawFlag(); }
+    CPUStatus clearDrawFlag() { display_.clearDrawFlag(); return CPUStatus::OK; }
+    CPUStatus clearDisplay() { display_.clear(); return CPUStatus::OK; }
 
     /**
      * Draws a sprite at the specified screen coordinates.
@@ -72,8 +72,8 @@ public:
     CPUStatus drawSprite(uint8_t vx, uint8_t vy, uint8_t n);
     
     // --- General-purpose Register Access ---
-    uint8_t getV(uint8_t index) const { return V[index]; }
-    CPUStatus setV(uint8_t index, uint8_t value) { V[index] = value; return CPUStatus::OK; }
+    uint8_t getV(uint8_t index) const { return V_[index]; }
+    CPUStatus setV(uint8_t index, uint8_t value) { V_[index] = value; return CPUStatus::OK; }
 
     /**
      * Stores the value of the second register in the first register
@@ -82,13 +82,13 @@ public:
      * @param x Target register index (result stored here)
      * @param y Source register index to copy
      */
-    CPUStatus copyRegister(uint8_t x, uint8_t y) { V[x] = V[y]; return CPUStatus::OK; }
-    CPUStatus setVF(uint8_t value) { V[VF] = value; return CPUStatus::OK; }
-    CPUStatus setIndexRegister(uint16_t addr) { indexRegister = addr; return CPUStatus::OK; }
-    CPUStatus setIndexRegisterFromV(uint16_t index) { indexRegister = 0x050 + (V[index] * 5); return CPUStatus::OK; }
+    CPUStatus copyRegister(uint8_t x, uint8_t y) { V_[x] = V_[y]; return CPUStatus::OK; }
+    CPUStatus setVF(uint8_t value) { V_[VF] = value; return CPUStatus::OK; }
+    CPUStatus setIndexRegister(uint16_t addr) { indexRegister_ = addr; return CPUStatus::OK; }
+    CPUStatus setIndexRegisterFromV(uint16_t index) { indexRegister_ = 0x050 + (V_[index] * 5); return CPUStatus::OK; }
 
     // --- Arithmetic and Logic Instructions ---
-    CPUStatus addImmediate(uint8_t index, uint8_t value) { V[index] += value; return CPUStatus::OK; }
+    CPUStatus addImmediate(uint8_t index, uint8_t value) { V_[index] += value; return CPUStatus::OK; }
 
     /**
      * Adds the values of two registers and stores the result in the first register.
@@ -138,9 +138,9 @@ public:
     CPUStatus shiftRight(uint8_t index);
     CPUStatus shiftLeft(uint8_t index);
 
-    CPUStatus bitwiseOR(uint8_t x, uint8_t y) { V[x] |= V[y]; return CPUStatus::OK; }
-    CPUStatus bitwiseXOR(uint8_t x, uint8_t y) { V[x] ^= V[y]; return CPUStatus::OK; }
-    CPUStatus bitwiseAND(uint8_t x, uint8_t y) { V[x] &= V[y]; return CPUStatus::OK; }
+    CPUStatus bitwiseOR(uint8_t x, uint8_t y) { V_[x] |= V_[y]; return CPUStatus::OK; }
+    CPUStatus bitwiseXOR(uint8_t x, uint8_t y) { V_[x] ^= V_[y]; return CPUStatus::OK; }
+    CPUStatus bitwiseAND(uint8_t x, uint8_t y) { V_[x] &= V_[y]; return CPUStatus::OK; }
 
     // --- Comparison ---
     bool equalsRegisters(uint8_t x, uint8_t y) const;
@@ -185,36 +185,36 @@ public:
     CPUStatus addRegisterToIndex(uint8_t index);
 
     // --- Timer Operations ---
-    CPUStatus storeDelay(uint8_t index) { V[index] = delayTimer.get(); return CPUStatus::OK; }
-    CPUStatus setDelayTimer(uint8_t index) { delayTimer.set(V[index]); return CPUStatus::OK; }
-    CPUStatus setSoundTimer(uint8_t index) { soundTimer.set(V[index]); return CPUStatus::OK; }
+    CPUStatus storeDelay(uint8_t index) { V_[index] = delayTimer_.get(); return CPUStatus::OK; }
+    CPUStatus setDelayTimer(uint8_t index) { delayTimer_.set(V_[index]); return CPUStatus::OK; }
+    CPUStatus setSoundTimer(uint8_t index) { soundTimer_.set(V_[index]); return CPUStatus::OK; }
 
     // --- Keypad ---
-    bool isKeyPressed(uint8_t index) { return keypad.isPressed(V[index]); }
+    bool isKeyPressed(uint8_t index) { return keypad_.isPressed(V_[index]); }
     CPUStatus waitForKeyPress(uint8_t index);
     bool waiting();
 
-    CPUStatus random(uint8_t x, uint8_t nn) { V[x] = (rand() % 256) & nn; return CPUStatus::OK; }
+    CPUStatus random(uint8_t x, uint8_t nn) { V_[x] = (rand() % 256) & nn; return CPUStatus::OK; }
 
     // --- Error Handling ---
     CPUStatus unknownOperation(uint8_t opcode);
 
 private:
-    Memory &memory;
-    Chip8Display &display;
-    Timer &delayTimer;
-    Timer &soundTimer;
-    Keypad &keypad;
+    Memory &memory_;
+    Chip8Display &display_;
+    Timer &delayTimer_;
+    Timer &soundTimer_;
+    Keypad &keypad_;
 
     // Registers
-    std::array<uint8_t, NUM_REGISTERS> V{}; // 16 8-bit registers
-    uint16_t indexRegister = 0;     // I register
-    uint16_t programCounter = PROGRAM_START_ADDRESS;
+    std::array<uint8_t, NUM_REGISTERS> V_{}; // 16 8-bit registers
+    uint16_t indexRegister_ = 0;     // I register
+    uint16_t programCounter_ = PROGRAM_START_ADDRESS;
 
     // Subroutine Stack
-    std::array<uint16_t, STACK_DEPTH> stack{};
-    uint8_t stackPointer = 0;
+    std::array<uint16_t, STACK_DEPTH> stack_{};
+    uint8_t stackPointer_= 0;
 
-    bool waitingForKeyPress = false;
-    uint8_t waitingForKeyRelease = 0xFF;
+    bool waitingForKeyPress_ = false;
+    uint8_t waitingForKeyRelease_ = 0xFF;
 };
